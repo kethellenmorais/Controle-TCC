@@ -5,9 +5,7 @@
 
 <img width="150px" src="./assets/Unicid-Logo.svg" title="Universidade Cidade de São Paulo (UNICID)" alt="Universidade Cidade de São Paulo (UNICID)">
 
-Universidade Cidade de São Paulo
-
-<br/>
+#### Universidade Cidade de São Paulo
 
 </div>
 
