@@ -1,54 +1,37 @@
-## Documento de Requisitos de Sistema
+<div align="center">
 
-#### Instituição
-```
-Universidade Cidade de São Paulo (UNICID)
-```
-#### Nome do projeto
-```
-Projeto Controle de TCC
-```
+### Controle de TCC
+<br/>
 
-#### Autores
-```
-Camille David Ruiz, 
-Heloisa Romão de Araujo,
-Keila Floures Sales, 
-Kethellen Morais da Silva, 
-Luana da Silva Santana, 
-Mateus Ferreira de Santana, 
-Pedro Leonardo Coelho da Conceição
-```
+<img width="150px" src="./assets/Unicid-Logo.svg" title="Universidade Cidade de São Paulo (UNICID)" alt="Universidade Cidade de São Paulo (UNICID)">
 
-#### Orientador 
-```
-Rodolfo Riyoei Goya
-```
+#### Universidade Cidade de São Paulo
 
-#### Local e Data
-```
-São Paulo, 28 de Setembro de 2022
-```
+</div>
 
-#### Introdução
-```
+## 📋️ Introdução
+
 O projeto tem como objetivo disponibilizar recursos para feedback e subida de arquivos de trabalho de conclusão de curso, possibilitando aos alunos e professores, uma plataforma prática e organizada de envios.
-```
 
-## Especificação de requisitos do sistema
+## 🧪 Tecnologias
 
-#### Requisitos funcionais
+Esse projeto foi desenvolvido com as seguintes tecnologias:
 
-- [x] O software deve permitir o cadastro do usuário: através da primeira tela de acesso o professor, aluno ou administrador deverá colocar seus dados para a criação de seu usuário no sistema.
-- [x]	Deverá permitir a redefinição de senha: ainda na tela de acesso, caso o usuário esqueça sua senha, será permitido a redefinição.
-- [x]	Deverá permitir o login do usuário: após a realização de seu cadastro, o usuário terá o livre acesso ao seu login em nosso sistema.
-- [x]	Deverá ser disponibilizado área para envio dos trabalhos: o aluno terá acesso para envio do documento de trabalho.
-- [x]	Deverá ser disponibilizado área para download do documento e envio: o professor terá acesso a baixar o documento enviado pelo aluno para avaliação e devolutiva de feedback.
-- [x]	Deverá ser disponibilizado área para visualização de notas e calendário de entregas: o professor disponibilizará sua devolutiva na plataforma que será concedido para visualização do aluno.
+- [x] HTML
+- [x] CSS
+- [x] MySQL
+
+### 👨‍🏫️ Orientador
+
+|[<img src="https://avatars.githubusercontent.com/u/6698346?v=4" width='62px' title="Rodolfo Riyoei Goya">](https://github.com/rrgoya)|Rodolfo Riyoei Goya|
+|:-:|:-:|
 
 
-#### Requisitos não funcionais
+### 👨‍💻️👩‍💻️ Autores
 
-- [ ]	O usuário terá acesso ao software após o login: ao entrar em nosso aplicativo será permitido o acesso a nosso software apenas após o preenchimento dos dados de login.
-- [ ]	A usabilidade do sistema deverá ser de fácil navegação e entendimento: a utilização do aplicativo será totalmente intuitiva, onde o usuário terá facilidade em se localizar, buscar o que precisa, graças a nossa divisão por abas e clareza nas explicações.
+| [<img src="https://avatars.githubusercontent.com/u/111441163?v=4" width='62px' title="Camille Ruiz">](https://github.com/camizru) <br> Camille | [<img src="https://avatars.githubusercontent.com/u/83608323?v=4" width='62px' title="Heloisa Romão">](https://github.com/HeloisaRomao) <br> Heloisa | [<img src="https://avatars.githubusercontent.com/u/67611596?v=4" width='62px' title="Keila Sales">](https://github.com/KeilaS06) <br> Keila | [<img src="https://avatars.githubusercontent.com/u/111459788?v=4" width='62px' title="Kethellen Morais">](https://github.com/kethellenmorais)<br> Kethellen | [<img src="https://avatars.githubusercontent.com/u/112582501?v=4" width='62px' title="Luana Santana">](https://github.com/santanaluana)<br> Luana| [<img src="https://avatars.githubusercontent.com/u/112817731?v=4" width='62px' title="Mateus Ferreira">](https://github.com/MafdSantana)<br>Mateus | [<img src="https://avatars.githubusercontent.com/u/50972494?v=4" width='62px' title="Pedro Leonardo">](https://github.com/xpedroleonardo) <br> Pedro |
+| :-: | :-: | :-: | :-: | :-: | :-: | :-: |
 
+---
+
+Gostou do projeto ? Dê uma estrela ⭐
