@@ -1,0 +1,29 @@
+.table-text {
+  margin: -4rem 0 3rem 0;
+}
+
+.table {
+  width: 100%;
+  margin-bottom: 1rem;
+  background-color: #FAFAFA;
+  border-radius: 5px;
+  padding: 12px;
+}
+
+.table {
+  border-collapse: collapse;
+}
+
+.table thead th {
+  vertical-align: bottom;
+  border-bottom: 2px solid #dee2e6;
+}
+
+.table th, .table td {
+  vertical-align: top;
+  /* border-top: 1px solid #dee2e6; */
+}
+
+th {
+  text-align: inherit;
+}

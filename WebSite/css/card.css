@@ -1,0 +1,15 @@
+.lista-grupos {
+  gap: 15px;
+}
+
+.grupo-texto {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: -4rem 0 3rem 0;
+}
+
+.card-group {
+  border: 2px solid #333;
+  border-radius: 5px;
+}
