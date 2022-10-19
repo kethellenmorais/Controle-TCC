@@ -2,7 +2,6 @@
   margin: -4rem 0 3rem 0;
 }
 
-
 .table {
   width: 100%;
   margin-bottom: 1rem;
@@ -24,6 +23,7 @@
   vertical-align: top;
   /* border-top: 1px solid #dee2e6; */
 }
+
 th {
   text-align: inherit;
 }
