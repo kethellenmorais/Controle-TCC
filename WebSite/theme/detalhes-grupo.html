@@ -8,21 +8,16 @@
   <meta name="description" content="Plataforma de controle de Tcc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
 
-  <!-- bootstrap -->
   <link rel="stylesheet" href="plugins/bootstrap/bootstrap.min.css" />
-  <!-- Animate -->
   <link rel="stylesheet" href="plugins/animate-css/animate.css" />
-  <!-- Icon Font css -->
   <link rel="stylesheet" href="plugins/fontawesome/css/all.css" />
   <link rel="stylesheet" href="plugins/fonts/Pe-icon-7-stroke.css" />
-  <!-- Themify icon Css -->
   <link rel="stylesheet" href="plugins/themify/css/themify-icons.css" />
-  <!-- Slick Carousel CSS -->
-  <link rel="stylesheet" href="plugins/slick-carousel/slick/slick.css" />
   <link rel="stylesheet" href="plugins/slick-carousel/slick/slick-theme.css" />
 
   <!-- Main Stylesheet -->
   <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/table.css" />
 
   <!--Favicon-->
   <link rel="icon" href="images/ico/icone.png" type="image/x-icon" />
@@ -47,16 +42,11 @@
 
       <div class="collapse navbar-collapse has-dropdown" id="navbarCollapse">
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a href="envios.html" class="nav-link js-scroll-trigger">
               Envios
             </a>
-          </li>
-          <li class="nav-item">
-            <a href="notas.html" class="nav-link js-scroll-trigger">
-              Notas
-            </a>
-          </li>
+          </li> -->
           <li class="nav-item">
             <a href="calendario.html" class="nav-link js-scroll-trigger">
               Calendário
@@ -69,9 +59,9 @@
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarWelcome">
               <li>
-                <a class="dropdown-item" href="index.html">Alterar senha</a>
+                <a class="dropdown-item" href="alterar-senha.html">Alterar senha</a>
               </li>
-              <li><a class="dropdown-item" href="index.html">Sair</a></li>
+              <li><a class="dropdown-item" href="#">Sair</a></li>
             </ul>
           </li>
         </ul>
@@ -87,6 +77,8 @@
         <div class="col-md-12 col-lg-9">
           <div class="banner-content text-center style-2">
             <h1 class="display-4 mb-4">Plataforma de controle de TCC</h1>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum adipisci neque dolorem corporis dicta,
+              tenetur in voluptate magni quo fugiat?</p>
           </div>
         </div>
       </div>
@@ -96,8 +88,33 @@
   <section class="section">
     <!-- Content -->
     <div class="container">
-
-    </div>
+      <div class="table-text">
+        <h2>Acompanhe os envios do grupo: Action TC</h2>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit mauris quis.
+        </p>
+      </div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Entrega</th>
+            <th>Documento</th>
+            <th>Data de Envio</th>
+            <th>Prazo da Entrega</th>
+            <th>Nota</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Front</td>
+            <td><a href="./images/banner/banner.png" download="">Baixar Entrega</a></td>
+            <td>19/10/2022</td>
+            <td>19/10/2022</td>
+            <td><a href="#!">Enviar Nota</a></td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
   </section>
 
   <!-- Page Scroll to Top  -->
