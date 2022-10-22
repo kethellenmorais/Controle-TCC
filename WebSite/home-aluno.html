@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8" />
-  <title>Controle de Tcc</title>
+  <title>Home</title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="description" content="Plataforma de controle de Tcc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
@@ -49,11 +49,6 @@
 
       <div class="collapse navbar-collapse has-dropdown" id="navbarCollapse">
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <a href="calendario.html" class="nav-link js-scroll-trigger">
-              Calendário
-            </a>
-          </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#!" id="navbarWelcome" role="button" data-toggle="dropdown"
               aria-haspopup="true" aria-expanded="false">
@@ -61,15 +56,46 @@
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarWelcome">
               <li>
-                <a class="dropdown-item" href="#!">Alterar senha</a>
+                <a class="dropdown-item" data-toggle="modal" data-target="#change-password">Alterar senha</a>
               </li>
-              <li><a class="dropdown-item" href="#!">Sair</a></li>
+              <li><a class="dropdown-item" href="#">Sair</a></li>
             </ul>
           </li>
         </ul>
       </div>
     </div>
   </nav>
+
+  <div class="modal fade" id="change-password" tabindex="-1" role="dialog" aria-labelledby="change-password"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title" id="change-password">
+            Altere a sua senha
+          </h3>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form action="">
+            <div class="modal-input">
+              <p>Nova senha</p>
+              <input type="password" name="password" id="password" />
+            </div>
+            <div class="modal-input">
+              <p>Confirme a senha</p>
+              <input type="password" name="confirm_password" id="confirm_password" />
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary">Salvar</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- HERO================================================== -->
   <section class="banner-area py-5" id="banner">
@@ -92,7 +118,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h3 class="modal-title" id="modal_new_task">
-            Criar nova entrega
+            Adicionar novo envio
           </h3>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -101,17 +127,23 @@
         <div class="modal-body">
           <form action="">
             <div class="modal-input">
-              <p>Etapa da entrega</p>
-              <input type="text" name="nome" id="nome" />
+              <p>Qual entrega deseja enviar?</p>
+              <select class="form-select" name="envios[]" aria-label="multiple select example">
+                <option selected>Selecione</option>
+                <option value="1">Documentação</option>
+                <option value="2">FrontEnd</option>
+                <option value="3">BackEnd</option>
+              </select>
             </div>
             <div class="modal-input">
-              <p>Prazo de entrega</p>
-              <input type="date" name="prazo_entrega" id="prazo_entrega" />
+              <p>Selecione o documento de envio</p>
+              <input type="file" id="myFile"></a>
+              </td>
             </div>
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary">Criar</button>
+          <button type="button" class="btn btn-primary">Enviar</button>
         </div>
       </div>
     </div>
@@ -124,7 +156,7 @@
 
       <div class="grupo-texto">
         <div>
-          <h2>Cadastre entregas para os seus grupos</h2>
+          <h2>Acompanhe suas entregas</h2>
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit mauris quis.
           </p>
@@ -135,25 +167,39 @@
         </a>
 
       </div>
-      <table class="table">
+      <table class="table table-hover">
         <thead>
           <tr>
-            <th width="50%">Entrega</th>
-            <th width="50%">Prazo da Entrega</th>
+            <th>Entrega</th>
+            <th>Documento</th>
+            <th>Data de Envio</th>
+            <th>Prazo da Entrega</th>
+            <th>Nota</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>Especificação</td>
-            <td>19/09/2022</td>
-          </tr>
-          <tr>
-            <td>Front-end</td>
+            <td>FrontEnd</td>
+            <td><a href="./images/banner/banner.png" download="">Baixar Entrega</a></td>
             <td>19/10/2022</td>
+            <td>19/10/2022</td>
+            <td>10</td>
           </tr>
+        </tbody>
+      </table>
+      <table class="table table-hover">
+        <thead>
           <tr>
-            <td>Back-end</td>
-            <td>19/11/2022</td>
+            <th>Entrega</th>
+            <th>Prazo da Entrega</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>BackEnd</td>
+            <td>21/10/2022</td>
+            <td>Pendente</td>
           </tr>
         </tbody>
       </table>
