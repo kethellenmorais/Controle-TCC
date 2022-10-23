@@ -40,7 +40,7 @@
   <nav class="navbar navbar-expand-lg navbar-dark trans-navigation fixed-top navbar-togglable">
     <div class="container">
       <a class="navbar-brand" href="index.html">
-        <h3>Controle de TCC</h3>
+        <h3>Início</h3>
       </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
         aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -78,9 +78,8 @@
       <div class="row align-items-center justify-content-center">
         <div class="col-md-12 col-lg-9">
           <div class="banner-content text-center style-2">
-            <h1 class="display-4 mb-4">Plataforma de controle de TCC</h1>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum adipisci neque dolorem corporis dicta,
-              tenetur in voluptate magni quo fugiat?</p>
+            <h1 class="display-4 mb-4">Controle de TCC</h1>
+            <p>Plataforma para criação de grupos de TCC, subida de arquivos, adição e visualização de notas.</p>
           </div>
         </div>
       </div>
@@ -92,7 +91,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h3 class="modal-title" id="modal_new_task">
-            Criar nova entrega
+            Nova etapa de entrega
           </h3>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -101,17 +100,17 @@
         <div class="modal-body">
           <form action="">
             <div class="modal-input">
-              <p>Etapa da entrega</p>
+              <p>Título da entrega</p>
               <input type="text" name="nome" id="nome" />
             </div>
             <div class="modal-input">
-              <p>Prazo de entrega</p>
+              <p>Prazo final</p>
               <input type="date" name="prazo_entrega" id="prazo_entrega" />
             </div>
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary">Criar</button>
+          <button type="button" class="btn btn-primary">Salvar</button>
         </div>
       </div>
     </div>
@@ -124,22 +123,22 @@
 
       <div class="grupo-texto">
         <div>
-          <h2>Cadastre entregas para os seus grupos</h2>
+          <h2>Entregas</h2>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit mauris quis.
+            Defina etapas e prazos de entrega para os grupos
           </p>
         </div>
 
         <a href="#modal_new_task" data-toggle="modal" data-target="#modal_new_task">
-          Adicionar Entrega +
+          + Nova etapa de entrega
         </a>
 
       </div>
       <table class="table">
         <thead>
           <tr>
-            <th width="50%">Entrega</th>
-            <th width="50%">Prazo da Entrega</th>
+            <th width="50%">Título da entrega</th>
+            <th width="50%">Prazo final</th>
           </tr>
         </thead>
         <tbody>
