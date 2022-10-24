@@ -81,8 +81,8 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body">
-          <form action="">
+        <form action="" method="get" autocomplete="off">
+          <div class="modal-body">
             <div class="modal-input">
               <p>Nova senha</p>
               <input type="password" name="password" id="password" />
@@ -91,11 +91,11 @@
               <p>Confirme a senha</p>
               <input type="password" name="confirm_password" id="confirm_password" />
             </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-primary">Salvar</button>
-        </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Salvar</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
@@ -111,26 +111,35 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body">
-          <form action="">
+        <form action="" method="get" autocomplete="off">
+          <div class="modal-body">
             <div class="modal-input">
               <p>Nome do grupo</p>
-              <input type="text" name="text" id="text" />
+              <input type="text" name="nome" placeholder="Digite o nome do grupo" required />
             </div>
             <div class="modal-input">
+              <p>Descrição</p>
+              <textarea class="descricao" placeholder="Digite a descrição do grupo" required name="descricao" cols="30"
+                maxlength="250"></textarea>
+            </div>
+
+            <div class="modal-input">
               <p>Integrantes</p>
-              <select class="form-select" name="integrantes[]" aria-label="Default select example">
-                <option selected>Open this select menu</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
+              <select class="form-select" required multiple="multiple" name="integrantes[]" aria-label="select">
+                <option value="1">Camille Ruiz</option>
+                <option value="2">Heloisa Romão</option>
+                <option value="3">Keila Floures Sales</option>
+                <option value="4">Kethellen Morais</option>
+                <option value="5">Luana da Silva Santana</option>
+                <option value="6">Mateus Ferreira</option>
+                <option value="7">Pedro Leonardo Coelho da Conceição</option>
               </select>
             </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-primary">Salvar</button>
-        </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Salvar</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
@@ -173,7 +182,8 @@
                   <h3 class="card-title">Action TC</h3>
                 </a>
                 <p>
-                  O marketing é uma ferramenta estratégica voltada para o posicionamento mercadológico que atua, inclusive na atribuição de valor.
+                  O marketing é uma ferramenta estratégica voltada para o posicionamento mercadológico que atua,
+                  inclusive na atribuição de valor.
                 </p>
                 <a href="./detalhes-grupo.html" class="read-more">Ver entregas</a>
               </div>

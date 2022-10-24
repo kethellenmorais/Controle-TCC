@@ -383,6 +383,7 @@ PRELOADER
 .navbar {
   position: relative;
   padding: 1rem 1rem;
+  height: 96px;
 }
 
 .navbar:before {
@@ -1460,10 +1461,56 @@ ul.dropdown-menu li {
 
   padding: 10px 15px;
 
-  border-radius: 8px;
+  border-radius: 5px;
   background: #fafafc;
 
   border: 1px solid #e6e6f0;
+}
+
+.modal-input .descricao {
+  width: 100%;
+  height: 120px;
+
+  padding: 10px 15px;
+
+  border-radius: 5px;
+  background: #fafafc;
+  resize: none;
+
+  border: 1px solid #e6e6f0;
+}
+
+.modal-input .entregas {
+  width: 100%;
+  height: 50px;
+
+  padding: 10px 15px;
+
+  border-radius: 5px;
+  background: #fafafc;
+
+  border: 1px solid #e6e6f0;
+}
+
+.modal-input select{
+  width: 100%;
+  height: 100px;
+  /* padding: 10px 15px; */
+
+  border-radius: 5px;
+  background: #fafafc;
+
+  border: 1px solid #e6e6f0;
+}
+
+.modal-input select option{
+  padding: 10px;
+}
+
+.modal-input select option:checked {
+  background-color: #8a4e95;
+  text-decoration: none;
+  color: white;
 }
 
 .modal-footer {

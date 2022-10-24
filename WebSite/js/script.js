@@ -1,10 +1,3 @@
-/**
- * WEBSITE: https://themefisher.com
- * TWITTER: https://twitter.com/themefisher
- * FACEBOOK: https://www.facebook.com/themefisher
- * GITHUB: https://github.com/themefisher/
- */
-
 (function ($) {
   'use strict';
 
@@ -24,7 +17,6 @@
 		});
 	}
 
-
   // SCROLL TO TOP
   $(window).on('scroll', function () {
     if ($(window).scrollTop() > 70) {
@@ -34,7 +26,6 @@
     }
   });
 
-
   // Fixed header
   $(window).on('scroll', function () {
     if ($(window).scrollTop() > 70) {
@@ -43,7 +34,7 @@
       $('.site-navigation,.trans-navigation').removeClass('header-white');
     }
   });
-  
+
 
 	// scroll-to-top
 	if ($('#scroll-to-top').length) {
@@ -54,7 +45,6 @@
 			return false;
 		});
 	}
-
 
   // Closes responsive menu when a scroll trigger link is clicked
   $('.js-scroll-trigger').on('click', function (event) {
