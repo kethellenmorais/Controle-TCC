@@ -145,7 +145,7 @@ img {
   BUTTONS STYLE
 ----------------=----*/
 .btn {
-  font-size: 0.6875rem;
+  font-size: 0.7rem;
   font-weight: 700;
   position: relative;
   text-transform: uppercase;
@@ -1519,4 +1519,88 @@ ul.dropdown-menu li {
 
 .modal-footer button {
   width: 60%;
+}
+
+
+/* LOGIN E CADASTRO */
+
+.centralizar {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.entrar-site {
+  width: 40%;
+  padding: 3rem;
+  background: white;
+  border-radius: 5px;
+}
+
+.entrar-titulo {
+  margin-bottom: 2rem;
+}
+
+.entrar-titulo p {
+  margin: initial;
+  color: #6f337a;
+}
+
+.entrar-input {
+  margin-bottom: 2.5rem;
+}
+
+.entrar-input p {
+  color: black;
+}
+
+.entrar-input input{
+  width: 100%;
+  height: 50px;
+
+  padding: 10px 15px;
+
+  border-radius: 5px;
+  background: #fafafc;
+
+  border: 1px solid #e6e6f0;
+  outline-color: #6f337a;
+}
+
+.entrar-input select{
+  width: 100%;
+  height: 50px;
+  padding: 10px 15px;
+
+  border-radius: 5px;
+  background: #fafafc;
+
+  border: 1px solid #e6e6f0;
+  outline-color: #6f337a;
+}
+
+.entrar-input select option{
+  padding: 10px;
+}
+
+.entrar-input select option:checked {
+  background-color: #8a4e95;
+  text-decoration: none;
+  color: white;
+}
+
+.entrar-input #cadastre-se {
+  margin-top: 15px;
+  text-align: end;
+}
+
+.entrar-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.entrar-button button {
+  width: 80%;
 }

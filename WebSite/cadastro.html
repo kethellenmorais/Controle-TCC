@@ -18,7 +18,7 @@
   <!-- Main Stylesheet -->
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/card.css" />
-  <link rel="stylesheet" href="css/cadastro.css" />
+  <link rel="stylesheet" href="css/login.css" />
 
   <!--Favicon-->
   <link rel="icon" href="images/ico/icone.png" type="image/x-icon" />
@@ -37,7 +37,7 @@
       <div class="collapse navbar-collapse has-dropdown" id="navbarCollapse">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a href="login.html" class="nav-link js-scroll-trigger">
+            <a href="login.html" title="Ir para página de Login" class="nav-link js-scroll-trigger">
               Login
             </a>
           </li>
@@ -46,12 +46,37 @@
     </div>
   </nav>
 
-  <!-- HERO================================================== --
+  <section class="section centralizar">
+    <div class="entrar-site">
+      <div class="entrar-titulo">
+        <h2>Cadastro</h2>
+        <p>Realize o cadastro para acessar a plataforma</p>
+      </div>
 
-  <section class="section">
-    <!-- Content -->
-    <div class="container">
+      <form action="" method="get" autocomplete="off">
+        <div class="entrar-input">
+          <p>Digite seu usuário</p>
+          <input type="text" name="usuario" placeholder="Seu usuário..." maxlength="30" required />
+        </div>
 
+        <div class="entrar-input">
+          <p>Digite sua senha</p>
+          <input type="password" placeholder="Sua senha..." name="password" maxlength="16" required />
+        </div>
+
+        <div class="entrar-input">
+          <p>Selecione o tipo de usuário</p>
+          <select name="tipo_usuario" id="">
+            <option selected disabled>Selecione uma opção</option>
+            <option value="1">Aluno</option>
+            <option value="2">Professor</option>
+          </select>
+        </div>
+
+        <div class="entrar-button">
+          <button class="btn btn-primary" type="submit">Cadastrar</button>
+        </div>
+      </form>
     </div>
   </section>
 
