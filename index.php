@@ -10,21 +10,27 @@ $router->namespace("Src\Controllers");
 $router->group(null);
 
 $router->get("/", "App:login", "app.login");
-$router->get("/cadastro", "App:cadastro", "app.cadastro");
+$router->post("/login_post", "App:login_post", "app.login_post");
 
-// $router->get("/", "App:home", "app.home");
-// $router->get("/create", "App:create", "app.create");
+$router->get("/cadastro", "App:cadastro", "app.cadastro");
+$router->post("/cadastro_post", "App:cadastro_post", "app.cadastro_post");
+
+$router->get("/inicio", "App:inicio", "app.inicio");
+$router->get("/calendario", "App:calendario", "app.calendario");
+
+$router->get("/{id}/detalhe", "App:detalhe_grupo", "app.detalhe_grupo");
+
 // $router->get("/products", "App:read", "app.read");
-// $router->get("/{id}/detail", "App:detail", "app.detail");
 // $router->get("/{id}/edit", "App:edit", "app.edit");
 // $router->get("/erro", "App:erro", "app.erro");
 
 // $router->post("/saveCreate", "App:saveCreate", "app.saveCreate");
-// $router->post("/saveEdit", "App:saveEdit", "app.saveEdit");
-// $router->post("/delete", "App:delete", "app.delete");
+
+$router->post("/nova-senha", "App:nova_senha", "app.nova_senha");
+$router->get("/sair", "App:sair", "app.sair");
 
 $router->dispatch();
 
-// if ($router->error()) {
-//   var_dump($router->error());
-// }
+if ($router->error()) {
+  $router->redirect("app.login");
+}

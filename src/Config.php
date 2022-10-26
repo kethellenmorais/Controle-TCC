@@ -1,7 +1,7 @@
 <?php
 
 /** BASE URL */
-define("ROOT", "http://localhost:8080/Controle-TCC");
+define("ROOT", "http://localhost/Controle-TCC");
 
 /** DATABASE CONNECT */
 define("DATA_LAYER_CONFIG", [
@@ -38,7 +38,7 @@ function url(string $path): string
 function images(string $path): string
 {
   if ($path) {
-    return ROOT . "{/theme/assets/images/$path}";
+    return ROOT . "/theme/assets/images/{$path}";
   }
   return ROOT;
 }
@@ -50,7 +50,7 @@ function images(string $path): string
 function css(string $path): string
 {
   if ($path) {
-    return ROOT . "{/theme/assets/js/$path}";
+    return ROOT . "/theme/assets/css/{$path}";
   }
   return ROOT;
 }
@@ -62,7 +62,7 @@ function css(string $path): string
 function js(string $path): string
 {
   if ($path) {
-    return ROOT . "{/theme/assets/js/$path}";
+    return ROOT . "/theme/assets/js/{$path}";
   }
   return ROOT;
 }
@@ -74,7 +74,7 @@ function js(string $path): string
 function plugins(string $path): string
 {
   if ($path) {
-    return ROOT . "{/theme/assets/plugins/$path}";
+    return ROOT . "/theme/assets/plugins/{$path}";
   }
   return ROOT;
 }

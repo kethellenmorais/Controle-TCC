@@ -2,8 +2,12 @@
 
 namespace Src\Controllers;
 
+session_start();
+
 use League\Plates\Engine;
-use Src\Models\Item;
+use Src\Models\User;
+use Src\Models\Group;
+use Src\Models\Task;
 
 class App
 {
@@ -27,6 +31,29 @@ class App
     ]);
   }
 
+  public function login_post(array $data): void
+  {
+    $itemData = filter_var_array($data, FILTER_DEFAULT);
+
+    $usuario = htmlspecialchars($data["username"], ENT_QUOTES);
+    $senha = htmlspecialchars($itemData['password'], ENT_QUOTES);
+
+    $user = (new User())->find("username = :user", "user=$usuario")->fetch();
+
+    if (password_verify($senha, $user->password)) {
+      $_SESSION['user'] = $user->id;
+      $_SESSION['user_type'] = $user->access;
+
+      $callback["message"] = "Login realizado com sucesso";
+      $callback["type"] = "success";
+      echo json_encode($callback);
+    } else {
+      $callback["error"] = "Usuário e senha incorretos!!!";
+      $callback["type"] = "error";
+      echo json_encode($callback);
+    }
+  }
+
   public function cadastro(): void
   {
     echo $this->view->render("cadastro", [
@@ -34,139 +61,114 @@ class App
     ]);
   }
 
-  public function home(): void
+  public function cadastro_post(array $data): void
   {
-    echo $this->view->render("home", [
-      "title" => "Home",
-      "items" => (new Item())->find()->count()
+    $user = new User();
+
+    $username_enviado = htmlspecialchars($data["username"], ENT_QUOTES);
+    $user_verify = (new User())->find("username = :user", "user=$username_enviado")->fetch();
+
+    if (!empty($user_verify)) {
+      $callback["error"] = "Já existe alguém utilizando esse username!!!";
+      $callback["type"] = "error";
+    } else {
+
+      $user->name = htmlspecialchars($data["name"], ENT_QUOTES);
+      $user->username = $username_enviado;
+      $user->password = password_hash(htmlspecialchars($data["password"], ENT_QUOTES), PASSWORD_DEFAULT);
+      $user->access = htmlspecialchars($data["access"], ENT_QUOTES);
+      $user->save();
+
+      $usuario = htmlspecialchars($data["access"], ENT_QUOTES) == 1 ? "Aluno" : "Professor";
+
+      $callback["message"] = "$usuario cadastrado com sucesso";
+      $callback["type"] = "success";
+    }
+    echo json_encode($callback);
+  }
+
+  public function inicio(): void
+  {
+
+    if (!empty($_SESSION['user']) && $_SESSION['user_type'] == 2) {
+      $grupos = (new Group())->find("teacher_id_group = :user", "user=$_SESSION[user]")->fetch(true);
+      $alunos = (new User())->find("access = :type", "type=1")->fetch(true);
+
+      echo $this->view->render("inicio", [
+        "title" => "Inicio",
+        "grupos" => $grupos,
+        "alunos" => $alunos,
+      ]);
+    } elseif (!empty($_SESSION['user']) && $_SESSION['user_type'] == 1) {
+      $grupos = (new Group())->find("user_id_group = :user", "user=$_SESSION[user]")->fetch(true);
+      $tasks = (new Task())->find("group_id = :group", "group=$grupos->id")->fetch(true);
+
+      echo $this->view->render("inicio", [
+        "title" => "Inicio",
+        "grupos" => $grupos,
+        "tasks" => $tasks,
+      ]);
+    } else {
+      echo $this->view->render("login", [
+        "title" => "Login"
+      ]);
+    }
+  }
+
+  public function nova_senha(array $data): void
+  {
+    $current_password = htmlspecialchars($data["current_password"], ENT_QUOTES);
+    $new_password = htmlspecialchars($data["new_password"], ENT_QUOTES);
+    $confirm_password = htmlspecialchars($data["confirm_password"], ENT_QUOTES);
+
+    $user = (new User())->find("id = :id", "id=$_SESSION[user]")->fetch();
+
+    if (password_verify($current_password, $user->password)) {
+
+      if ($new_password == $confirm_password) {
+        $user->password = password_hash($new_password, PASSWORD_DEFAULT);
+        $user->save();
+
+        $callback["message"] = "Senha atualizada com sucesso";
+        $callback["type"] = "success";
+      } else {
+        $callback["error"] = "As senhas informadas estão diferentes!!!";
+        $callback["type"] = "error";
+      }
+    } else {
+
+      $callback["error"] = "A senha atual está incorreta!!!";
+      $callback["type"] = "error";
+    }
+
+    echo json_encode($callback);
+  }
+
+  public function calendario(): void
+  {
+    echo $this->view->render("calendario", [
+      "title" => "Calendário"
     ]);
   }
 
-  public function create(): void
+  public function detalhe_grupo(array $data): void
   {
-    echo $this->view->render("create", [
-      "title" => "Novo",
-      "headerTitle" => "Você quer cadastrar um produto ?",
-      "headerDesc" => "O primeiro passo é preencher esse formulário"
-    ]);
-  }
+    $grupo = (new Group())->findById($data["id"]);
 
-  public function read(): void
-  {
-    echo $this->view->render("read", [
-      "items" => (new Item())->find()->fetch(true),
-      "title" => "Produtos",
-      "headerTitle" => "Estes são os produtos disponíveis",
-      "headerDesc" => "Explore e encontre o melhor para você se vestir"
-    ]);
-  }
-
-  public function detail(array $data): void
-  {
-    $item = (new Item())->findById($data["id"]);
-
-    if ($item) {
-      echo $this->view->render("detail", [
-        "item" => $item,
+    if ($grupo) {
+      echo $this->view->render("detalhe", [
         "title" => "Detalhes",
-        "headerTitle" => "Detalhes do produto",
-        "headerDesc" => "Esses são os dados do produto cadastrado"
+        "grupo" => $grupo
       ]);
-    } else {
-      echo $this->view->render("home");
     }
   }
 
-  public function edit(array $data): void
+  public function sair(): void
   {
-    $item = (new Item())->findById($data["id"]);
+    session_destroy();
 
-    if ($item) {
-      echo $this->view->render("edit", [
-        "item" => $item,
-        "title" => "Editar",
-        "headerTitle" => "Editar produto",
-        "headerDesc" => "Altere os dados do produto cadastrado"
-      ]);
-    } else {
-      echo $this->view->render("home");
-    }
-  }
-
-  public function saveCreate(array $data): void
-  {
-    $itemData = filter_var_array($data, FILTER_SANITIZE_STRING);
-    if (in_array("", $itemData)) {
-      $callback["error"] = "Preencha todos os dados.";
-      $callback["type"] = "error";
-      echo json_encode($callback);
-      return;
-    }
-
-    if (strlen($itemData["name"]) > 30 || strlen($itemData["description"]) > 255 || strlen($itemData["price"]) > 9) {
-      $callback["error"] = "Não altere nosso formulário";
-      $callback["type"] = "error";
-      echo json_encode($callback);
-      return;
-    }
-
-    $item = new Item();
-    $item->name = $itemData["name"];
-    $item->description = $itemData["description"];
-    $item->image = $itemData["selectImage"];
-    $item->price = $itemData["price"];
-    $item->save();
-
-    $callback["message"] = "Produto cadastrado com sucesso";
-    $callback["type"] = "success";
-    echo json_encode($callback);
-  }
-
-  public function saveEdit(array $data): void
-  {
-
-    $itemData = filter_var_array($data, FILTER_SANITIZE_STRING);
-    if (in_array("", $itemData)) {
-      $callback["error"] = "Preencha todos os dados.";
-      $callback["type"] = "error";
-      echo json_encode($callback);
-      return;
-    }
-
-    if (strlen($itemData["name"]) > 30 || strlen($itemData["description"]) > 255 || strlen($itemData["price"]) > 9) {
-      $callback["error"] = "Não altere nosso formulário";
-      $callback["type"] = "error";
-      echo json_encode($callback);
-      return;
-    }
-
-    $item = (new Item())->findById($itemData["id"]);
-    $item->name = $itemData["name"];
-    $item->description = $itemData["description"];
-    $item->image = $itemData["selectImage"];
-    $item->price = $itemData["price"];
-    $item->save();
-
-    $callback["message"] = "Produto Editado com sucesso";
-    $callback["type"] = "success";
-    echo json_encode($callback);
-  }
-
-  public function delete(array $data): void
-  {
-    if (empty($data["id"])) {
-      return;
-    }
-
-    $id = filter_var($data["id"], FILTER_VALIDATE_INT);
-    $item = (new Item())->findById($id);
-
-    if ($item) {
-      $item->destroy();
-    }
-
-    $callback["type"] = "success";
-    $callback["message"] = "Produto excluído com sucesso";
-    echo json_encode($callback);
+    echo $this->view->render("login", [
+      "title" => "Login"
+    ]);
   }
 }

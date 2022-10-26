@@ -13,7 +13,7 @@
       <div class="collapse navbar-collapse has-dropdown" id="navbarCollapse">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a href="cadastro.html" title="Ir para página de Cadastro" class="nav-link js-scroll-trigger">
+            <a href="<?= $router->route("app.cadastro") ?>" title="Ir para página de Cadastro" class="nav-link js-scroll-trigger">
               Cadastro
             </a>
           </li>
@@ -22,7 +22,6 @@
     </div>
   </nav>
 
-
   <section class="section centralizar">
     <div class="entrar-site">
       <div class="entrar-titulo">
@@ -30,16 +29,16 @@
         <p>Digite os seus dados para acessar a plataforma</p>
       </div>
 
-      <form action="" method="get" autocomplete="off">
+      <form action="<?= $router->route("app.login_post") ?>" method="post" autocomplete="off">
         <div class="entrar-input">
           <p>Digite seu usuário</p>
-          <input type="text" name="usuario" placeholder="Seu usuário..." maxlength="30" required />
+          <input type="text" name="username" placeholder="Seu usuário..." maxlength="30" required />
         </div>
 
         <div class="entrar-input">
           <p>Digite sua senha</p>
           <input type="password" placeholder="Sua senha..." name="password" maxlength="16" required />
-          <p id="cadastre-se">Ainda não tem cadastro ? <a href="cadastro.html">Cadastre-se</a></p>
+          <p id="cadastre-se">Ainda não tem cadastro ? <a href="<?= $router->route("app.cadastro") ?>">Cadastre-se</a></p>
         </div>
 
         <div class="entrar-button">
@@ -48,16 +47,50 @@
       </form>
     </div>
   </section>
-
-  <!-- Page Scroll to Top  -->
-  <a id="scroll-to-top" class="scroll-to-top js-scroll-trigger" href="#top-header">
-    <i class="fa fa-angle-up"></i>
-  </a>
-
-  <!-- Essential Scripts=====================================-->
-  <!-- jQuery -->
-  <script src="plugins/jquery/jquery.min.js"></script>
-  <!-- Bootstrap -->
-  <script src="plugins/bootstrap/bootstrap.min.js"></script>
-  <script src="js/script.js"></script>
 </div>
+
+<?php
+$v->start("js");
+?>
+<script>
+
+  $("form").submit(function(e) {
+    e.preventDefault();
+    var form = $(this);
+
+    $.ajax({
+      url: form.attr("action"),
+      data: form.serialize(),
+      type: "POST",
+      dataType: "json",
+      success: function(callback) {
+        if (callback.error) {
+
+          Swal.fire({
+            icon: callback.type,
+            title: 'Oops...',
+            text: callback.error,
+            allowOutsideClick: false
+          })
+
+        } else {
+
+          Swal.fire({
+            icon: callback.type,
+            title: 'Sucesso',
+            text: callback.message,
+            allowOutsideClick: false,
+            willClose: () => location.href = '<?= url("/inicio") ?>'
+          })
+
+        }
+      },
+      error: function() {
+
+      }
+    });
+  });
+</script>
+<?php
+$v->end();
+?>

@@ -1,24 +1,13 @@
-<div class="card-item">
-  <header>
-    <img src="<?= url('/theme/assets/images/roupas/' . $item->image) ?>" alt="" draggable="false" />
-    <div>
-      <strong class="text-center"><?= $item->name ?></strong>
-    </div>
-  </header>
-
-  <div>
-    <p><?= $item->description ?></p>
-  </div>
-
-  <div class="block">
-    <div id="details-card-price" class="text-center">
-      <p><strong>R$ <?= $item->price ?></strong></p>
+<div class="col-lg-4 col-md-6 card-group">
+  <div class="blog-box">
+    <div class="single-blog">
+      <div class="blog-content">
+        <a href="#!">
+          <h3 class="card-title"><?= $grupo->name ?></h3>
+        </a>
+        <p><?= $grupo->description ?></p>
+        <a href="<?= $router->route("app.detalhe_grupo", ["id" => $grupo->id]); ?>" class="read-more">Ver entregas</a>
+      </div>
     </div>
   </div>
-
-  <footer>
-    <a href=" <?= $router->route("app.detail", ["id" => $item->id]); ?>">
-      Ver
-    </a>
-  </footer>
 </div>
