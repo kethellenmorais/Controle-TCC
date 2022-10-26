@@ -146,19 +146,33 @@ class App
 
   public function calendario(): void
   {
-    echo $this->view->render("calendario", [
-      "title" => "Calendário"
-    ]);
+
+    if (!empty($_SESSION['user']) && $_SESSION['user_type'] == 2 || $_SESSION['user_type'] == 1) {
+      echo $this->view->render("calendario", [
+        "title" => "Calendário"
+      ]);
+    } else {
+      echo $this->view->render("login", [
+        "title" => "Login"
+      ]);
+    }
   }
 
   public function detalhe_grupo(array $data): void
   {
-    $grupo = (new Group())->findById($data["id"]);
 
-    if ($grupo) {
-      echo $this->view->render("detalhe", [
-        "title" => "Detalhes",
-        "grupo" => $grupo
+    if (!empty($_SESSION['user']) && $_SESSION['user_type'] == 2 || $_SESSION['user_type'] == 1) {
+      $grupo = (new Group())->findById($data["id"]);
+
+      if ($grupo) {
+        echo $this->view->render("detalhe", [
+          "title" => "Detalhes",
+          "grupo" => $grupo
+        ]);
+      }
+    } else {
+      echo $this->view->render("login", [
+        "title" => "Login"
       ]);
     }
   }
