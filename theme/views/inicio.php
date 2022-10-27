@@ -89,6 +89,28 @@ $v->layout("../_theme");
           </a>
 
         </div>
+
+        <p>Antes de realizar a entrega</p>
+
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Título da entrega</th>
+              <th>Prazo final</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>BackEnd</td>
+              <td>21/10/2022</td>
+              <td>Pendente</td>
+            </tr>
+          </tbody>
+        </table>
+
+
+        <p>Depois de realizar a entrega</p>
         <table class="table table-hover">
           <thead>
             <tr>
@@ -109,22 +131,8 @@ $v->layout("../_theme");
             </tr>
           </tbody>
         </table>
-        <table class="table table-hover">
-          <thead>
-            <tr>
-              <th>Título da entrega</th>
-              <th>Prazo final</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>BackEnd</td>
-              <td>21/10/2022</td>
-              <td>Pendente</td>
-            </tr>
-          </tbody>
-        </table>
+
+
       </div>
     </section>
 
@@ -136,3 +144,5 @@ $v->layout("../_theme");
   ?>
 
 </div>
+
+

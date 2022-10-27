@@ -5,16 +5,16 @@ namespace Src\Models;
 use CoffeeCode\DataLayer\DataLayer;
 
 /**
- * Class Item
+ * Class Entregas
  * @package Source\models
  */
-class User extends DataLayer
+class Entregas extends DataLayer
 {
   /**
    * Item constructor.
    */
   public function __construct()
   {
-    parent::__construct("usuarios", ["name", "username", "password", "access"]);
+    parent::__construct("entregas", ["name", "date", "teacher_id_entregas"]);
   }
 }

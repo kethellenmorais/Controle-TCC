@@ -5,9 +5,9 @@ namespace Src\Controllers;
 session_start();
 
 use League\Plates\Engine;
-use Src\Models\User;
-use Src\Models\Group;
-use Src\Models\Task;
+use Src\Models\Usuarios;
+use Src\Models\Grupos;
+use Src\Models\Entregas;
 
 class App
 {
@@ -38,7 +38,7 @@ class App
     $usuario = htmlspecialchars($data["username"], ENT_QUOTES);
     $senha = htmlspecialchars($itemData['password'], ENT_QUOTES);
 
-    $user = (new User())->find("username = :user", "user=$usuario")->fetch();
+    $user = (new Usuarios())->find("username = :user", "user=$usuario")->fetch();
 
     if (password_verify($senha, $user->password)) {
       $_SESSION['user'] = $user->id;
@@ -63,10 +63,10 @@ class App
 
   public function cadastro_post(array $data): void
   {
-    $user = new User();
+    $user = new Usuarios();
 
     $username_enviado = htmlspecialchars($data["username"], ENT_QUOTES);
-    $user_verify = (new User())->find("username = :user", "user=$username_enviado")->fetch();
+    $user_verify = (new Usuarios())->find("username = :user", "user=$username_enviado")->fetch();
 
     if (!empty($user_verify)) {
       $callback["error"] = "Já existe alguém utilizando esse username!!!";
@@ -91,8 +91,8 @@ class App
   {
 
     if (!empty($_SESSION['user']) && $_SESSION['user_type'] == 2) {
-      $grupos = (new Group())->find("teacher_id_group = :user", "user=$_SESSION[user]")->fetch(true);
-      $alunos = (new User())->find("access = :type", "type=1")->fetch(true);
+      $grupos = (new Grupos())->find("teacher_id_group = :user", "user=$_SESSION[user]")->fetch(true);
+      $alunos = (new Usuarios())->find("access = :type", "type=1")->fetch(true);
 
       echo $this->view->render("inicio", [
         "title" => "Inicio",
@@ -100,8 +100,8 @@ class App
         "alunos" => $alunos,
       ]);
     } elseif (!empty($_SESSION['user']) && $_SESSION['user_type'] == 1) {
-      $grupos = (new Group())->find("user_id_group = :user", "user=$_SESSION[user]")->fetch(true);
-      $tasks = (new Task())->find("group_id = :group", "group=$grupos->id")->fetch(true);
+      $grupos = (new Grupos())->find("user_id_group = :user", "user=$_SESSION[user]")->fetch(true);
+      $tasks = (new Entregas())->find("group_id = :group", "group=$grupos->id")->fetch(true);
 
       echo $this->view->render("inicio", [
         "title" => "Inicio",
@@ -115,13 +115,81 @@ class App
     }
   }
 
+  public function criar_grupo(array $data): void
+  {
+    $name = htmlspecialchars($data["name"], ENT_QUOTES);
+    $name_verify = (new Grupos())->find("name = :group_name", "group_name=$name")->fetch(true);
+
+    $description = htmlspecialchars($data["description"], ENT_QUOTES);
+    $integrantes = $data["integrantes"];
+
+    if (!empty($name_verify)) {
+      $callback["error"] =  "Já existe um grupo com esse nome";
+      $callback["type"] = "error";
+    } else {
+
+      $newGroup = new Grupos();
+      $newGroup->name = $name;
+      $newGroup->description = $description;
+      $newGroup->teacher_id_group = $_SESSION['user'];
+      $newGroup->save();
+
+      $groupId = (new Grupos())->find("name = :unico", "unico=$name")->fetch();
+
+      if ($newGroup->fail()) {
+        $callback["error"] = $newGroup->fail()->getMessage();
+        $callback["type"] = "error";
+
+        echo json_encode($callback);
+      }
+
+      foreach ($integrantes as $key => $integrante_id) {
+        $user = (new Usuarios())->find("id = :id", "id=$integrante_id")->fetch();
+        $user->group_id = $groupId->id;
+        $user->save();
+
+        if ($user->fail()) {
+          $callback["error"] = $user->fail()->getMessage();
+          $callback["type"] = "error";
+
+          echo json_encode($callback);
+        }
+      }
+
+      $entregas = (new Entregas())->find("teacher_id_entregas = :professor AND grupo = :grupo_id", "professor=$_SESSION[user]&grupo_id=0")->order("date ASC")->fetch(true);
+      foreach ($entregas as $valor) {
+
+        $entrega = new Entregas();
+        $entrega->name = $valor->name;
+        $entrega->date = $valor->date;
+        $entrega->grupo = $groupId->id;
+        $entrega->teacher_id_entregas = $_SESSION['user'];
+        $entrega->save();
+
+
+        if($entrega->fail()){
+          $callback["error"] = $user->fail()->getMessage();
+          $callback["type"] = "error";
+
+          echo json_encode($callback);
+        }
+      }
+
+      $callback["message"] = "Grupo criado com sucesso";
+      $callback["type"] = "success";
+      $callback["reload"] = true;
+    }
+
+    echo json_encode($callback);
+  }
+
   public function nova_senha(array $data): void
   {
     $current_password = htmlspecialchars($data["current_password"], ENT_QUOTES);
     $new_password = htmlspecialchars($data["new_password"], ENT_QUOTES);
     $confirm_password = htmlspecialchars($data["confirm_password"], ENT_QUOTES);
 
-    $user = (new User())->find("id = :id", "id=$_SESSION[user]")->fetch();
+    $user = (new Usuarios())->find("id = :id", "id=$_SESSION[user]")->fetch();
 
     if (password_verify($current_password, $user->password)) {
 
@@ -131,6 +199,7 @@ class App
 
         $callback["message"] = "Senha atualizada com sucesso";
         $callback["type"] = "success";
+        $callback["reload"] = true;
       } else {
         $callback["error"] = "As senhas informadas estão diferentes!!!";
         $callback["type"] = "error";
@@ -144,12 +213,51 @@ class App
     echo json_encode($callback);
   }
 
+  public function criar_entregas(array $data): void
+  {
+    $name = htmlspecialchars($data["entrega"], ENT_QUOTES);
+    $date = htmlspecialchars($data["prazo_entrega"], ENT_QUOTES);
+
+    $task = new Entregas();
+    $task->name = $name;
+    $task->date = $date;
+    $task->grupo = 0;
+    $task->teacher_id_entregas = $_SESSION['user'];
+    $task->save();
+
+    $grupos = (new Grupos())->find("teacher_id_group = :user", "user=$_SESSION[user]")->fetch(true);
+
+    foreach ($grupos as $grupo) {
+      $task = new Entregas();
+      $task->name = $name;
+      $task->date = $date;
+      $task->grupo = $grupo->id;
+      $task->teacher_id_entregas = $_SESSION['user'];
+      $task->save();
+    }
+
+    if ($task->fail()) {
+      $callback["error"] = $task->fail()->getMessage();
+      $callback["type"] = "error";
+
+      echo json_encode($callback);
+    }
+
+    $callback["message"] = "Entrega criada com sucesso";
+    $callback["type"] = "success";
+    $callback["reload"] = true;
+
+    echo json_encode($callback);
+  }
+
   public function calendario(): void
   {
+    if (!empty($_SESSION['user']) && $_SESSION['user_type'] == 2) {
+      $entregas = (new Entregas())->find("teacher_id_entregas = :professor AND grupo = :grupo_id", "professor=$_SESSION[user]&grupo_id=0")->order("date ASC")->fetch(true);
 
-    if (!empty($_SESSION['user']) && $_SESSION['user_type'] == 2 || $_SESSION['user_type'] == 1) {
       echo $this->view->render("calendario", [
-        "title" => "Calendário"
+        "title" => "Calendário",
+        "entrega" => $entregas,
       ]);
     } else {
       echo $this->view->render("login", [
@@ -160,16 +268,15 @@ class App
 
   public function detalhe_grupo(array $data): void
   {
+    if (!empty($_SESSION['user']) && $_SESSION['user_type'] == 2) {
+      $grupo = (new Grupos())->findById($data["id"]);
+      $entregas = (new Entregas())->find("grupo = :grupo_id", "grupo_id=$data[id]")->order("date ASC")->fetch(true);
 
-    if (!empty($_SESSION['user']) && $_SESSION['user_type'] == 2 || $_SESSION['user_type'] == 1) {
-      $grupo = (new Group())->findById($data["id"]);
-
-      if ($grupo) {
-        echo $this->view->render("detalhe", [
-          "title" => "Detalhes",
-          "grupo" => $grupo
-        ]);
-      }
+      echo $this->view->render("detalhe", [
+        "title" => "Detalhes",
+        "grupo" => $grupo,
+        "entrega" => $entregas,
+      ]);
     } else {
       echo $this->view->render("login", [
         "title" => "Login"

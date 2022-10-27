@@ -14,8 +14,7 @@ $v->layout("../_theme");
     <div class="overlay"></div>
   </section>
 
-  <div class="modal fade" id="modal_new_task" tabindex="-1" role="dialog" aria-labelledby="modal_new_task"
-    aria-hidden="true">
+  <div class="modal fade" id="modal_new_task" tabindex="-1" role="dialog" aria-labelledby="modal_new_task" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -26,7 +25,7 @@ $v->layout("../_theme");
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <form action="" method="get" autocomplete="off">
+        <form action="<?= $router->route("app.criar_entregas") ?>" method="post" autocomplete="off">
           <div class="modal-body">
             <div class="modal-input">
               <p>Título da entrega</p>
@@ -70,18 +69,26 @@ $v->layout("../_theme");
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>Especificação</td>
-            <td>19/09/2022</td>
-          </tr>
-          <tr>
-            <td>Front-end</td>
-            <td>19/10/2022</td>
-          </tr>
-          <tr>
-            <td>Back-end</td>
-            <td>19/11/2022</td>
-          </tr>
+
+          <?php
+
+          if (!empty($entrega)) :
+            foreach ($entrega as $valores) :
+
+              $date = date_create($valores->date);
+          ?>
+              <tr>
+                <td><?= $valores->name ?></td>
+                <td><?= date_format($date, 'd/m/Y') ?></td>
+              </tr>
+
+          <?php
+
+            endforeach;
+          endif;
+
+          ?>
+
         </tbody>
       </table>
     </div>

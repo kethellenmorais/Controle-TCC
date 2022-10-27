@@ -1609,3 +1609,12 @@ ul.dropdown-menu li {
 .entrar-button button {
   width: 80%;
 }
+
+.swal2-confirm.swal2-styled {
+  background-color: #8a4e95;
+  width: 75%;
+}
+
+.btn:focus {
+  outline: 3px solid #8a4e95;
+}

@@ -55,11 +55,11 @@
         <div class="modal-body">
         <div class="modal-input">
             <p>Senha Atual</p>
-            <input type="password" required name="current_password" id="password" />
+            <input type="password" required name="current_password" id="current_password" />
           </div>
           <div class="modal-input">
             <p>Nova senha</p>
-            <input type="password" required name="new_password" id="password" />
+            <input type="password" required name="new_password" id="new_password" />
           </div>
           <div class="modal-input">
             <p>Confirme a senha</p>
@@ -105,7 +105,12 @@ $v->start("js");
             icon: callback.type,
             title: 'Sucesso',
             text: callback.message,
-            allowOutsideClick: false
+            allowOutsideClick: false,
+            willClose: () => {
+              if(callback.reload){
+                location.reload();
+              }
+            }
           })
 
         }

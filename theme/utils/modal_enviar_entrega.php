@@ -15,7 +15,7 @@
             <p>Qual entrega deseja enviar?</p>
             <select class="form-select entregas" name="envios[]" aria-label="select example">
               <option selected disabled>Selecione uma opção</option>
-              <option value="1">Arquivo</option>
+              <option value="1">Documentação</option>
               <option value="2">FrontEnd</option>
               <option value="3">BackEnd</option>
             </select>
