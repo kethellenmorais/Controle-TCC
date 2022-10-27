@@ -1,4 +1,4 @@
-<?php $v->layout("../_theme"); ?>
+<?php $v->layout("_theme"); ?>
 
 <div id="login">
   <div class="overlay"></div>
@@ -62,7 +62,7 @@
   </section>
 
   <?php
-  $v->insert("../utils/to_top.php");
+  $v->insert("utils/to_top.php");
   ?>
 
 </div>

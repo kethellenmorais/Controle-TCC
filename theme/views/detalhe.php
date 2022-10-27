@@ -1,12 +1,12 @@
 <?php
 session_start();
-$v->layout("../_theme");
+$v->layout("_theme");
 ?>
 
 <body id="top-header">
 
   <?php
-  $v->insert("../utils/navbar.php");
+  $v->insert("utils/navbar.php");
   ?>
 
   <section class="banner-area py-5" id="banner">
@@ -80,7 +80,7 @@ $v->layout("../_theme");
   </section>
 
   <?php
-  $v->insert("../utils/to_top.php");
+  $v->insert("utils/to_top.php");
   ?>
 
 </body>

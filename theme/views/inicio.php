@@ -1,13 +1,13 @@
 <?php
 session_start();
 
-$v->layout("../_theme");
+$v->layout("_theme");
 
 ?>
 
 <div id="top-header">
   <?php
-  $v->insert("../utils/navbar.php");
+  $v->insert("utils/navbar.php");
   ?>
 
   <!-- HERO================================================== -->
@@ -32,7 +32,7 @@ $v->layout("../_theme");
 
   if ($_SESSION['user_type'] == 2) :
 
-    $v->insert("../utils/modal_criar_grupo.php");
+    $v->insert("utils/modal_criar_grupo.php");
 
   ?>
 
@@ -54,7 +54,7 @@ $v->layout("../_theme");
 
           if (!empty($grupos)) {
             foreach ($grupos as $grupo) {
-              $v->insert("../utils/card.php", ['grupo' => $grupo]);
+              $v->insert("utils/card.php", ['grupo' => $grupo]);
             }
           } else {
             echo "<h3>Não tem existem grupos cadastrados na aplicação</h3>";
@@ -69,7 +69,7 @@ $v->layout("../_theme");
   <?php
   elseif ($_SESSION['user_type'] == 1) :
 
-    $v->insert("../utils/modal_enviar_entrega.php");
+    $v->insert("utils/modal_enviar_entrega.php");
   ?>
 
     <section class="section">
@@ -124,10 +124,10 @@ $v->layout("../_theme");
           <tbody>
             <tr>
               <td>FrontEnd</td>
-              <td><a href="./images/banner/banner.png" download="">Baixar</a></td>
+              <td>Pendende</td>
+              <td>Pendende</td>
               <td>19/10/2022</td>
-              <td>19/10/2022</td>
-              <td>10</td>
+              <td>Pendende</td>
             </tr>
           </tbody>
         </table>
@@ -140,7 +140,7 @@ $v->layout("../_theme");
   <?php
   endif;
 
-  $v->insert("../utils/to_top.php");
+  $v->insert("utils/to_top.php");
   ?>
 
 </div>

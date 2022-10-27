@@ -21,6 +21,8 @@ class App
       "php"
     );
 
+    $this->view->addFolder('utils', dirname(__DIR__, 2) . '/theme/views/utils/', true);
+
     $this->view->addData(["router" => $router]);
   }
 
