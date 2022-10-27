@@ -13,6 +13,14 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
 	`updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP() ON UPDATE CURRENT_TIMESTAMP()
 );
 
+CREATE TABLE IF NOT EXISTS `composicao` (
+	`id` INT PRIMARY KEY AUTO_INCREMENT,
+  `usuario_id` INT NOT NULL,
+  `grupo_id` INT NOT NULL,
+  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP(),
+	`updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP() ON UPDATE CURRENT_TIMESTAMP()
+);
+
 CREATE TABLE IF NOT EXISTS `grupos` (
 	`id` INT PRIMARY KEY AUTO_INCREMENT,
 	`name` VARCHAR(120) NOT NULL,
@@ -44,3 +52,9 @@ ALTER TABLE `usuarios` ADD CONSTRAINT `group_user_fk` FOREIGN KEY (`group_id`) R
 
 ALTER TABLE `grupos` ADD CONSTRAINT `group_teacher_fk` FOREIGN KEY (`teacher_id_group`) REFERENCES
 `usuarios` (`id`) ON DELETE CASCADE;
+
+ALTER TABLE `composicao` ADD CONSTRAINT `composicao_usuario_fk` FOREIGN KEY (`usuario_id`) REFERENCES
+`usuarios` (`id`) ON DELETE CASCADE;
+
+ALTER TABLE `composicao` ADD CONSTRAINT `composicao_grupo_fk` FOREIGN KEY (`grupo_id`) REFERENCES
+`grupos` (`id`) ON DELETE CASCADE;

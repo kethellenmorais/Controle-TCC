@@ -9,27 +9,38 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-        <form action="">
+      <form action="" method="post">
+        <div class="modal-body">
           <div class="modal-input">
             <p>Qual entrega deseja enviar?</p>
-            <select class="form-select entregas" name="envios[]" aria-label="select example">
+            <select class="form-select entregas" name="entrega" aria-label="select example">
               <option selected disabled>Selecione uma opção</option>
-              <option value="1">Documentação</option>
-              <option value="2">FrontEnd</option>
-              <option value="3">BackEnd</option>
+
+              <?php
+              if (!empty($tasks)) :
+                foreach ($tasks as $task) :
+              ?>
+                  <option value="<?= $task->id; ?>"><?= $task->name; ?></option>
+                <?php
+
+                endforeach;
+              else :
+                ?>
+                <option disabled>Sem entregas Cadastradas</option>
+
+              <?php endif; ?>
             </select>
           </div>
           <div class="modal-input">
             <p>Selecione o documento de envio</p>
-            <input type="file" id="myFile"></a>
+            <input type="file" name="file" type="file" id="myFile"></a>
             </td>
           </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary">Enviar</button>
-      </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Enviar</button>
+        </div>
+      </form>
     </div>
   </div>
 </div>

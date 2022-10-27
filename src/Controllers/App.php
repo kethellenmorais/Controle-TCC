@@ -8,6 +8,7 @@ use League\Plates\Engine;
 use Src\Models\Usuarios;
 use Src\Models\Grupos;
 use Src\Models\Entregas;
+use Src\Models\Composicao;
 
 class App
 {
@@ -43,6 +44,20 @@ class App
     $user = (new Usuarios())->find("username = :user", "user=$usuario")->fetch();
 
     if (password_verify($senha, $user->password)) {
+
+      if($user->access == '1'){
+        $composicao = (new Composicao())->find("usuario_id = :user", "user=$user->id")->fetch();
+
+        if(empty($composicao->id)){
+
+          $callback["error"] = "Você ainda não está em um grupo, entre em contato com o seu professor!!!";
+          $callback["type"] = "error";
+
+          echo json_encode($callback);
+          return;
+        }
+      }
+
       $_SESSION['user'] = $user->id;
       $_SESSION['user_type'] = $user->access;
 
@@ -102,12 +117,12 @@ class App
         "alunos" => $alunos,
       ]);
     } elseif (!empty($_SESSION['user']) && $_SESSION['user_type'] == 1) {
-      $grupos = (new Grupos())->find("user_id_group = :user", "user=$_SESSION[user]")->fetch(true);
-      $tasks = (new Entregas())->find("group_id = :group", "group=$grupos->id")->fetch(true);
+      $composicao = (new Composicao())->find("usuario_id = :user", "user=$_SESSION[user]")->fetch();
+      // $grupo = (new Grupos())->findById("$composicao->grupo_id")->fetch(true);
+      $tasks = (new Entregas())->find("grupo = :group", "group=$composicao->id")->fetch(true);
 
       echo $this->view->render("inicio", [
         "title" => "Inicio",
-        "grupos" => $grupos,
         "tasks" => $tasks,
       ]);
     } else {
@@ -151,6 +166,11 @@ class App
         $user->group_id = $groupId->id;
         $user->save();
 
+        $composicao = new Composicao();
+        $composicao->usuario_id = $integrante_id;
+        $composicao->grupo_id = $groupId->id;
+        $composicao->save();
+
         if ($user->fail()) {
           $callback["error"] = $user->fail()->getMessage();
           $callback["type"] = "error";
@@ -158,6 +178,16 @@ class App
           echo json_encode($callback);
           return;
         }
+
+        if ($composicao->fail()) {
+          $callback["error"] = $composicao->fail()->getMessage();
+          $callback["type"] = "error";
+
+          echo json_encode($callback);
+          return;
+        }
+
+
       }
 
       $entregas = (new Entregas())->find("teacher_id_entregas = :professor AND grupo = :grupo_id", "professor=$_SESSION[user]&grupo_id=0")->order("date ASC")->fetch(true);
@@ -255,6 +285,16 @@ class App
     $callback["message"] = "Entrega criada com sucesso";
     $callback["type"] = "success";
     $callback["reload"] = true;
+
+    echo json_encode($callback);
+  }
+
+  public function entrega($data): void
+  {
+
+    $callback["message"] = $data;
+    $callback["type"] = "success";
+    // $callback["reload"] = true;
 
     echo json_encode($callback);
   }

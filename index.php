@@ -18,6 +18,7 @@ $router->post("/cadastro-post", "App:cadastro_post", "app.cadastro_post");
 $router->post("/criar-grupo", "App:criar_grupo", "app.criar_grupo");
 
 $router->post("/criar-entregas", "App:criar_entregas", "app.criar_entregas");
+$router->post("/entrega", "App:entrega", "app.entrega");
 
 $router->get("/inicio", "App:inicio", "app.inicio");
 

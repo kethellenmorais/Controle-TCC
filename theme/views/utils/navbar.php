@@ -53,7 +53,7 @@
       </div>
       <form action="<?= $router->route("app.nova_senha") ?>" method="post" autocomplete="off">
         <div class="modal-body">
-        <div class="modal-input">
+          <div class="modal-input">
             <p>Senha Atual</p>
             <input type="password" required name="current_password" id="current_password" />
           </div>
@@ -79,49 +79,55 @@
 $v->start("js");
 ?>
 <script>
+  var arquivo = $('input[name="file"]').prop('files')[0];
 
-  $("form").submit(function(e) {
-    e.preventDefault();
-    var form = $(this);
+  console.log("TEM ARQUIVO");
 
-    $.ajax({
-      url: form.attr("action"),
-      data: form.serialize(),
-      type: "POST",
-      dataType: "json",
-      success: function(callback) {
-        if (callback.error) {
+  if (arquivo) {
 
-          Swal.fire({
-            icon: callback.type,
-            title: 'Oops...',
-            text: callback.error,
-            allowOutsideClick: false
-          })
+    console.log("NÂO TEM ARQUIVO");
+    $("form").submit(function(e) {
+      e.preventDefault();
+      var form = $(this);
 
-        } else {
+      $.ajax({
+        url: form.attr("action"),
+        data: form.serialize(),
+        type: "POST",
+        dataType: "json",
+        success: function(callback) {
+          if (callback.error) {
 
-          Swal.fire({
-            icon: callback.type,
-            title: 'Sucesso',
-            text: callback.message,
-            allowOutsideClick: false,
-            willClose: () => {
-              if(callback.reload){
-                location.reload();
+            Swal.fire({
+              icon: callback.type,
+              title: 'Oops...',
+              text: callback.error,
+              allowOutsideClick: false
+            })
+
+          } else {
+
+            Swal.fire({
+              icon: callback.type,
+              title: 'Sucesso',
+              text: callback.message,
+              allowOutsideClick: false,
+              willClose: () => {
+                if (callback.reload) {
+                  location.reload();
+                }
               }
-            }
-          })
+            })
+
+          }
+        },
+        error: function() {
 
         }
-      },
-      error: function() {
-
-      }
+      });
     });
-  });
+  }
 </script>
 <?php
 $v->end();
 ?>
-

@@ -69,7 +69,7 @@ $v->layout("_theme");
   <?php
   elseif ($_SESSION['user_type'] == 1) :
 
-    $v->insert("utils/modal_enviar_entrega.php");
+    $v->insert("utils/modal_enviar_entrega.php", ['tasks' => $tasks]);
   ?>
 
     <section class="section">
@@ -90,7 +90,9 @@ $v->layout("_theme");
 
         </div>
 
-        <p>Antes de realizar a entrega</p>
+
+        <h3>Entregas Pendentes</h3>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius, fugiat.</p>
 
         <table class="table table-hover">
           <thead>
@@ -101,16 +103,35 @@ $v->layout("_theme");
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>BackEnd</td>
-              <td>21/10/2022</td>
-              <td>Pendente</td>
-            </tr>
+            <?php
+
+            if (!empty($tasks)) :
+              foreach ($tasks as $key => $task) :
+                $prazo_final = date_create($task->date);
+            ?>
+                <tr>
+                  <td><?= $task->name; ?></td>
+                  <td><?= date_format($prazo_final, 'd/m/Y'); ?></td>
+                  <td>Não Enviado</td>
+                </tr>
+              <?php
+
+              endforeach;
+            else :
+              ?>
+              <tr>
+                <td colspan="3" align="center">Seu grupo já realizou todas as entregas</td>
+              </tr>
+
+            <?php endif; ?>
+
           </tbody>
         </table>
 
 
-        <p>Depois de realizar a entrega</p>
+        <!-- <h3>Entregas Realizadas</h3>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius, fugiat.</p>
+
         <table class="table table-hover">
           <thead>
             <tr>
@@ -130,7 +151,7 @@ $v->layout("_theme");
               <td>Pendende</td>
             </tr>
           </tbody>
-        </table>
+        </table> -->
 
 
       </div>
@@ -144,5 +165,3 @@ $v->layout("_theme");
   ?>
 
 </div>
-
-
