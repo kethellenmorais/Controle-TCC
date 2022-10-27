@@ -1,5 +1,5 @@
 <?php
-session_start();
+// session_start();
 $v->layout("_theme");
 ?>
 
@@ -36,7 +36,7 @@ $v->layout("_theme");
           <?php
           if (!empty($entrega)) :
             foreach ($entrega as $valor) :
-              $prazo_final = date_create($valores->date);
+              $prazo_final = date_create($valor->date);
           ?>
               <tr>
                 <td><?= $valor->name; ?></td>

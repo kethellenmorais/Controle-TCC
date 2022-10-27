@@ -143,6 +143,7 @@ class App
         $callback["type"] = "error";
 
         echo json_encode($callback);
+        return;
       }
 
       foreach ($integrantes as $key => $integrante_id) {
@@ -155,6 +156,7 @@ class App
           $callback["type"] = "error";
 
           echo json_encode($callback);
+          return;
         }
       }
 
@@ -174,6 +176,7 @@ class App
           $callback["type"] = "error";
 
           echo json_encode($callback);
+          return;
         }
       }
 
@@ -229,20 +232,24 @@ class App
 
     $grupos = (new Grupos())->find("teacher_id_group = :user", "user=$_SESSION[user]")->fetch(true);
 
-    foreach ($grupos as $grupo) {
-      $task = new Entregas();
-      $task->name = $name;
-      $task->date = $date;
-      $task->grupo = $grupo->id;
-      $task->teacher_id_entregas = $_SESSION['user'];
-      $task->save();
-    }
+    if(!empty($grupos)){
 
-    if ($task->fail()) {
-      $callback["error"] = $task->fail()->getMessage();
-      $callback["type"] = "error";
+      foreach ($grupos as $grupo) {
+        $task = new Entregas();
+        $task->name = $name;
+        $task->date = $date;
+        $task->grupo = $grupo->id;
+        $task->teacher_id_entregas = $_SESSION['user'];
+        $task->save();
+      }
 
-      echo json_encode($callback);
+      if ($task->fail()) {
+        $callback["error"] = $task->fail()->getMessage();
+        $callback["type"] = "error";
+
+        echo json_encode($callback);
+        return;
+      }
     }
 
     $callback["message"] = "Entrega criada com sucesso";
