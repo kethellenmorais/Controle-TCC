@@ -80,58 +80,19 @@
 $v->start("js");
 ?>
 <script>
-  
-    $("form").submit(function(e) {
-      e.preventDefault();
-      var form = $(this);
+  $("form").submit(function(e) {
+    e.preventDefault();
+    var form = $(this);
 
-      var arquivo = form[0][0] ? form[0][0] : null
+    var arquivo = form[0][0] ? form[0][0] : null
 
-      if(arquivo.value == "SIM") {
+    console.log(arquivo.value);
 
-        var formData = new FormData();
-        formData.append('file', document.getElementById('myFile').files[0]);
-
-        console.log(document.getElementById('myFile').files[0]);
-
-        $.ajax({
-        url: form.attr("action"),
-        data: formData,
-        type: "POST",
-        processData: false, 
-		    contentType: false, 
-        success: function(callback) {
-          if (callback.error) {
-
-            Swal.fire({
-              icon: callback.type,
-              title: 'Oops...',
-              text: callback.error,
-              allowOutsideClick: false
-            })
-
-          } else {
-
-            Swal.fire({
-              icon: callback.type,
-              title: 'Sucesso FILE',
-              text: callback.message,
-              allowOutsideClick: false,
-              willClose: () => {
-                if (callback.reload) {
-                  location.reload();
-                }
-              }
-            })
-
-          }
-        },
-        error: function() {
-
-        }
-      });
-
-      }else{
+    if (arquivo.value == "SIM") {
+      var formData = new FormData();
+      formData.append('file', document.getElementById('myFile').files[0]);
+      saveImage(formData)
+    } else {
 
       $.ajax({
         url: form.attr("action"),
@@ -169,7 +130,39 @@ $v->start("js");
         }
       });
     }
-    });
+
+    function saveImage(formData) {
+      $.ajax({
+        url: "arquivo.php",
+        data: formData,
+        type: "POST",
+        dataType: "json",
+        processData: false,
+        contentType: false,
+        success: function(callback) {
+          if (callback.error) {
+
+            Swal.fire({
+              icon: callback.type,
+              title: 'Oops...',
+              text: callback.error,
+              allowOutsideClick: false
+            })
+
+          } else {
+            document.getElementById('filename').innerHTML = callback.filename
+            document.getElementById('validador').innerHTML = "NAO"
+
+            $("entrega-button").click();
+
+          }
+        },
+        error: function() {
+
+        }
+      });
+    }
+  });
 </script>
 <?php
 $v->end();

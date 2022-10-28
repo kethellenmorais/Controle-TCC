@@ -9,9 +9,9 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form action="<?= url("/theme/views/utils/arquivo.php") ?>" method="post" enctype="multipart/form-data" >
-      <input type="hidden" type="text" class="arquivo_validador" value="SIM" name="arquivo_validador">
-
+      <form action="<?= $router->route("app.upload") ?>" id="ent" method="post" enctype="multipart/form-data" >
+      <input type="hidden" type="text" id="validador" class="arquivo_validador" value="SIM" name="arquivo_validador">
+      <input type="hidden" type="text" value="vazio" name="filename" id="filename">
         <div class="modal-body">
           <div class="modal-input">
             <p>Qual entrega deseja enviar?</p>
@@ -40,7 +40,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-primary">Enviar</button>
+          <button type="submit" id="entrega-button" class="btn btn-primary">Enviar</button>
         </div>
       </form>
     </div>

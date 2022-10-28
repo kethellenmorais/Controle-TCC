@@ -43,12 +43,19 @@ class App
 
     $user = (new Usuarios())->find("username = :user", "user=$usuario")->fetch();
 
+    if (empty($user)) {
+      $callback["error"] = "O usuário não existe na aplicação";
+      $callback["type"] = "error";
+      echo json_encode($callback);
+      return;
+    }
+
     if (password_verify($senha, $user->password)) {
 
-      if($user->access == '1'){
+      if ($user->access == '1') {
         $composicao = (new Composicao())->find("usuario_id = :user", "user=$user->id")->fetch();
 
-        if(empty($composicao->id)){
+        if (empty($composicao->id)) {
 
           $callback["error"] = "Você ainda não está em um grupo, entre em contato com o seu professor!!!";
           $callback["type"] = "error";
@@ -186,8 +193,6 @@ class App
           echo json_encode($callback);
           return;
         }
-
-
       }
 
       $entregas = (new Entregas())->find("teacher_id_entregas = :professor AND grupo = :grupo_id", "professor=$_SESSION[user]&grupo_id=0")->order("date ASC")->fetch(true);
@@ -201,7 +206,7 @@ class App
         $entrega->save();
 
 
-        if($entrega->fail()){
+        if ($entrega->fail()) {
           $callback["error"] = $user->fail()->getMessage();
           $callback["type"] = "error";
 
@@ -262,7 +267,7 @@ class App
 
     $grupos = (new Grupos())->find("teacher_id_group = :user", "user=$_SESSION[user]")->fetch(true);
 
-    if(!empty($grupos)){
+    if (!empty($grupos)) {
 
       foreach ($grupos as $grupo) {
         $task = new Entregas();
@@ -342,13 +347,12 @@ class App
     ]);
   }
 
-
   public function upload($data): void
   {
-    
-$callback["message"] = print_r($_FILES, 1);
-$callback["type"] = "success";
 
-echo json_encode($callback);
+    $callback["message"] = json_encode($data);
+    $callback["type"] = "success";
+
+    echo json_encode($callback);
   }
 }
