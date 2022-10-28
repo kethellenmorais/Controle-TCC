@@ -16,7 +16,7 @@
 
   <link rel="stylesheet" href="<?= css("style.css"); ?>" />
   <link rel="stylesheet" href="<?= css("card.css"); ?>" />
-  <link rel="stylesheet" href="<?= css("login.css"); ?>" />
+  <link rel="stylesheet" href="<?= css("acesso.css"); ?>" />
   <link rel="stylesheet" href="<?= css("table.css"); ?>" />
 
   <link rel="icon" href="<?= images("icons/icone.png") ?>" type="image/x-icon" />

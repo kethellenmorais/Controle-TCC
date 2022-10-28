@@ -510,7 +510,7 @@ PRELOADER
   font-weight: 700;
 }
 
-.dropdown-submenu:hover > .dropdown-item,
+.dropdown-submenu:hover>.dropdown-item,
 .dropdown-item:hover {
   background: #6f337a;
   color: #fff !important;
@@ -522,7 +522,7 @@ PRELOADER
   color: inherit;
 }
 
-.dropdown-submenu.active > .dropdown-toggle {
+.dropdown-submenu.active>.dropdown-toggle {
   text-decoration: underline;
   color: inherit;
 }
@@ -542,7 +542,7 @@ ul.dropdown-menu li {
     transform: translateY(15px);
   }
 
-  .dropdown:hover > .dropdown-menu {
+  .dropdown:hover>.dropdown-menu {
     visibility: visible;
     transition: all 0.35s ease 0s;
     opacity: 1;
@@ -712,11 +712,9 @@ ul.dropdown-menu li {
 }
 
 .overlay.feature-overlay {
-  background-image: linear-gradient(
-    30deg,
-    rgba(121, 110, 255, 0.95) 0%,
-    rgba(33, 200, 122, 0.95) 100%
-  );
+  background-image: linear-gradient(30deg,
+      rgba(121, 110, 255, 0.95) 0%,
+      rgba(33, 200, 122, 0.95) 100%);
   opacity: 0.9;
 }
 
@@ -1446,12 +1444,21 @@ ul.dropdown-menu li {
   }
 }
 
+.modal-header,
+.modal-footer {
+  border: none;
+}
+
 .modal-body {
   padding: 1rem 3rem;
 }
 
 .modal-input {
   margin-bottom: 1rem;
+}
+
+.modal-input p{
+  color: black;
 }
 
 .modal-input input {
@@ -1495,7 +1502,7 @@ ul.dropdown-menu li {
   outline-color: #6f337a;
 }
 
-.modal-input select{
+.modal-input select {
   width: 100%;
   height: 100px;
   /* padding: 10px 15px; */
@@ -1507,7 +1514,7 @@ ul.dropdown-menu li {
   outline-color: #6f337a;
 }
 
-.modal-input select option{
+.modal-input select option {
   padding: 10px;
 }
 
@@ -1522,9 +1529,8 @@ ul.dropdown-menu li {
 }
 
 .modal-footer button {
-  width: 60%;
+  width: 70%;
 }
-
 
 /* LOGIN E CADASTRO */
 
@@ -1559,7 +1565,7 @@ ul.dropdown-menu li {
   color: black;
 }
 
-.entrar-input input{
+.entrar-input input {
   width: 100%;
   height: 50px;
 
@@ -1572,7 +1578,7 @@ ul.dropdown-menu li {
   outline-color: #6f337a;
 }
 
-.entrar-input select{
+.entrar-input select {
   width: 100%;
   height: 50px;
   padding: 10px 15px;
@@ -1584,7 +1590,7 @@ ul.dropdown-menu li {
   outline-color: #6f337a;
 }
 
-.entrar-input select option{
+.entrar-input select option {
   padding: 10px;
 }
 
@@ -1616,4 +1622,11 @@ ul.dropdown-menu li {
 
 .btn:focus {
   outline: 3px solid #8a4e95;
+}
+
+
+@media (min-width: 576px) {
+  .modal-dialog {
+    max-width: 600px;
+  }
 }

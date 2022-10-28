@@ -19,7 +19,7 @@ $v->layout("_theme");
       <div class="modal-content">
         <div class="modal-header">
           <h3 class="modal-title" id="modal_new_task">
-            Nova etapa de entrega
+           Criar entrega
           </h3>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -29,7 +29,7 @@ $v->layout("_theme");
           <div class="modal-body">
             <div class="modal-input">
               <p>Título da entrega</p>
-              <input type="text" name="entrega" placeholder="Digite o título da entrega" id="entrega" />
+              <input type="text" name="entrega" placeholder="Digite o título da entrega.." maxlength="30" id="entrega" />
             </div>
             <div class="modal-input">
               <p>Prazo final</p>
@@ -57,7 +57,7 @@ $v->layout("_theme");
         </div>
 
         <a href="#modal_new_task" data-toggle="modal" data-target="#modal_new_task">
-          + Nova etapa de entrega
+          + Criar entrega
         </a>
 
       </div>

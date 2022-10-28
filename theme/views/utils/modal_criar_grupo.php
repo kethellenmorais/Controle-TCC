@@ -13,11 +13,11 @@
         <div class="modal-body">
           <div class="modal-input">
             <p>Nome do grupo</p>
-            <input type="text" name="name" placeholder="Digite o nome do grupo" required />
+            <input type="text" name="name" placeholder="Digite o nome do grupo..." maxlength="20" required />
           </div>
           <div class="modal-input">
             <p>Descrição</p>
-            <textarea class="descricao" placeholder="Digite a descrição do grupo" required name="description" cols="30" maxlength="250"></textarea>
+            <textarea class="descricao" placeholder="Digite a descrição do grupo..." required name="description" cols="30" maxlength="250"></textarea>
           </div>
 
           <div class="modal-input">
@@ -46,6 +46,7 @@
           <button type="submit" class="btn btn-primary">Criar</button>
         </div>
       </form>
+
     </div>
   </div>
 </div>

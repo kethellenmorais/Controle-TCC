@@ -86,12 +86,11 @@ $v->start("js");
 
     var arquivo = form[0][0] ? form[0][0] : null
 
-    console.log(arquivo.value);
-
     if (arquivo.value == "SIM") {
       var formData = new FormData();
       formData.append('file', document.getElementById('myFile').files[0]);
       saveImage(formData)
+
     } else {
 
       $.ajax({
@@ -150,10 +149,10 @@ $v->start("js");
             })
 
           } else {
-            document.getElementById('filename').innerHTML = callback.filename
-            document.getElementById('validador').innerHTML = "NAO"
+            document.getElementById('filename').value = callback.filename
+            document.getElementById('validador').value = "NAO"
 
-            $("entrega-button").click();
+            $("#form_file").submit();
 
           }
         },

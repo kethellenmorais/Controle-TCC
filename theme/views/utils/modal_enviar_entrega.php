@@ -9,7 +9,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form action="<?= $router->route("app.upload") ?>" id="ent" method="post" enctype="multipart/form-data" >
+      <form action="<?= $router->route("app.upload") ?>" id="form_file" method="post" enctype="multipart/form-data" >
       <input type="hidden" type="text" id="validador" class="arquivo_validador" value="SIM" name="arquivo_validador">
       <input type="hidden" type="text" value="vazio" name="filename" id="filename">
         <div class="modal-body">
@@ -35,7 +35,7 @@
           </div>
           <div class="modal-input">
             <p>Selecione o documento de envio</p>
-            <input type="file" required name="file" id="myFile"></a>
+            <input type="file" required name="arquivo" id="myFile"></a>
             </td>
           </div>
         </div>

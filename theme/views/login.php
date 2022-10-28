@@ -34,7 +34,6 @@
           <p>Digite seu usuário</p>
           <input type="text" name="username" placeholder="Seu usuário..." maxlength="30" required />
         </div>
-
         <div class="entrar-input">
           <p>Digite sua senha</p>
           <input type="password" placeholder="Sua senha..." name="password" maxlength="16" required />

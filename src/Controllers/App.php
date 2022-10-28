@@ -125,8 +125,7 @@ class App
       ]);
     } elseif (!empty($_SESSION['user']) && $_SESSION['user_type'] == 1) {
       $composicao = (new Composicao())->find("usuario_id = :user", "user=$_SESSION[user]")->fetch();
-      // $grupo = (new Grupos())->findById("$composicao->grupo_id")->fetch(true);
-      $tasks = (new Entregas())->find("grupo = :group", "group=$composicao->id")->fetch(true);
+      $tasks = (new Entregas())->find("grupo = :group", "group=$composicao->grupo_id")->fetch(true);
 
       echo $this->view->render("inicio", [
         "title" => "Inicio",
@@ -151,6 +150,18 @@ class App
       $callback["error"] =  "Já existe um grupo com esse nome";
       $callback["type"] = "error";
     } else {
+
+      foreach ($integrantes as $key => $integrante_id) {
+        $user = (new Composicao())->find("usuario_id = :id", "id=$integrante_id")->fetch();
+
+        if(!empty($user->id)){
+          $callback["error"] = "O aluno já está cadastrado em um grupo";
+          $callback["type"] = "error";
+
+          echo json_encode($callback);
+          return;
+        }
+      }
 
       $newGroup = new Grupos();
       $newGroup->name = $name;

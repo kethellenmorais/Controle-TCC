@@ -7,7 +7,7 @@ define("ROOT", "http://localhost/Controle-TCC");
 define("DATA_LAYER_CONFIG", [
   "driver" => "mysql",
   "host" => "localhost",
-  "port" => "3308",
+  "port" => "3306",
   "dbname" => "controle_tcc",
   "username" => "root",
   "passwd" => "",

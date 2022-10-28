@@ -2,7 +2,7 @@
   <div class="blog-box">
     <div class="single-blog">
       <div class="blog-content">
-        <a href="#!">
+        <a>
           <h3 class="card-title"><?= $grupo->name ?></h3>
         </a>
         <p><?= $grupo->description ?></p>
