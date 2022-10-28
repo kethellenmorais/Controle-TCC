@@ -53,6 +53,7 @@
       </div>
       <form action="<?= $router->route("app.nova_senha") ?>" method="post" autocomplete="off">
         <div class="modal-body">
+          <input type="hidden" type="text" class="arquivo_validador" value="NAO" name="arquivo_validador">
           <div class="modal-input">
             <p>Senha Atual</p>
             <input type="password" required name="current_password" id="current_password" />
@@ -79,16 +80,58 @@
 $v->start("js");
 ?>
 <script>
-  var arquivo = $('input[name="file"]').prop('files')[0];
-
-  console.log("TEM ARQUIVO");
-
-  if (arquivo) {
-
-    console.log("NÂO TEM ARQUIVO");
+  
     $("form").submit(function(e) {
       e.preventDefault();
       var form = $(this);
+
+      var arquivo = form[0][0] ? form[0][0] : null
+
+      if(arquivo.value == "SIM") {
+
+        var formData = new FormData();
+        formData.append('file', document.getElementById('myFile').files[0]);
+
+        console.log(document.getElementById('myFile').files[0]);
+
+        $.ajax({
+        url: form.attr("action"),
+        data: formData,
+        type: "POST",
+        processData: false, 
+		    contentType: false, 
+        success: function(callback) {
+          if (callback.error) {
+
+            Swal.fire({
+              icon: callback.type,
+              title: 'Oops...',
+              text: callback.error,
+              allowOutsideClick: false
+            })
+
+          } else {
+
+            Swal.fire({
+              icon: callback.type,
+              title: 'Sucesso FILE',
+              text: callback.message,
+              allowOutsideClick: false,
+              willClose: () => {
+                if (callback.reload) {
+                  location.reload();
+                }
+              }
+            })
+
+          }
+        },
+        error: function() {
+
+        }
+      });
+
+      }else{
 
       $.ajax({
         url: form.attr("action"),
@@ -125,8 +168,8 @@ $v->start("js");
 
         }
       });
+    }
     });
-  }
 </script>
 <?php
 $v->end();

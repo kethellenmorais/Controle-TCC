@@ -341,4 +341,14 @@ class App
       "title" => "Login"
     ]);
   }
+
+
+  public function upload($data): void
+  {
+    
+$callback["message"] = print_r($_FILES, 1);
+$callback["type"] = "success";
+
+echo json_encode($callback);
+  }
 }

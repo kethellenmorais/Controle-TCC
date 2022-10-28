@@ -9,12 +9,14 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form action="" method="post">
+      <form action="<?= url("/theme/views/utils/arquivo.php") ?>" method="post" enctype="multipart/form-data" >
+      <input type="hidden" type="text" class="arquivo_validador" value="SIM" name="arquivo_validador">
+
         <div class="modal-body">
           <div class="modal-input">
             <p>Qual entrega deseja enviar?</p>
-            <select class="form-select entregas" name="entrega" aria-label="select example">
-              <option selected disabled>Selecione uma opção</option>
+            <select class="form-select entregas" required id="Entrega" name="entrega" aria-label="select example">
+              <option disabled readonly>Selecione uma opção</option>
 
               <?php
               if (!empty($tasks)) :
@@ -33,7 +35,7 @@
           </div>
           <div class="modal-input">
             <p>Selecione o documento de envio</p>
-            <input type="file" name="file" type="file" id="myFile"></a>
+            <input type="file" required name="file" id="myFile"></a>
             </td>
           </div>
         </div>
