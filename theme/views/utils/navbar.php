@@ -56,15 +56,15 @@
           <input type="hidden" type="text" class="arquivo_validador" value="NAO" name="arquivo_validador">
           <div class="modal-input">
             <p>Senha Atual</p>
-            <input type="password" required name="current_password" id="current_password" />
+            <input type="password" required name="current_password" id="current_password" placeholder="Digite a sua senha atual..." />
           </div>
           <div class="modal-input">
             <p>Nova senha</p>
-            <input type="password" required name="new_password" id="new_password" />
+            <input type="password" required name="new_password" id="new_password" placeholder="Digite a sua nova senha..." />
           </div>
           <div class="modal-input">
             <p>Confirme a senha</p>
-            <input type="password" required name="confirm_password" id="confirm_password" />
+            <input type="password" required name="confirm_password" id="confirm_password" placeholder="Confirme a sua senha atual..." />
           </div>
         </div>
         <div class="modal-footer">
@@ -126,6 +126,7 @@ $v->start("js");
         },
         error: function() {
 
+
         }
       });
     }
@@ -135,7 +136,7 @@ $v->start("js");
         url: "arquivo.php",
         data: formData,
         type: "POST",
-        dataType: "json",
+        // dataType: "json",
         processData: false,
         contentType: false,
         success: function(callback) {
@@ -153,7 +154,6 @@ $v->start("js");
             document.getElementById('validador').value = "NAO"
 
             $("#form_file").submit();
-
           }
         },
         error: function() {
@@ -161,6 +161,23 @@ $v->start("js");
         }
       });
     }
+  });
+
+  $("#nota").on("keyup", function(e) {
+    var code = (e.keyCode || e.which);
+
+    // do nothing if it's an arrow key or backspace
+    if (code == 37 || code == 38 || code == 39 || code == 40 || code == 8) {
+      return;
+    }
+
+    var num = Number(this.value.replace(",", "."));
+    if (this.value.replace(",", "").length > 2) num = num * 100;
+
+    var value = (num <= 10 ? num : 10);
+
+    // this.value = value.toFixed(1).replace(".", ",");
+    this.value = value.toFixed(1).replace(".", ",");
   });
 </script>
 <?php

@@ -19,7 +19,7 @@ $v->layout("_theme");
       <div class="modal-content">
         <div class="modal-header">
           <h3 class="modal-title" id="modal_new_task">
-           Criar entrega
+            Criar entrega
           </h3>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -33,7 +33,7 @@ $v->layout("_theme");
             </div>
             <div class="modal-input">
               <p>Prazo final</p>
-              <input type="date" name="prazo_entrega" id="prazo_entrega" />
+              <input type="date" min="<?= date("Y-m-d") ?>" name="prazo_entrega" id="prazo_entrega" />
             </div>
           </div>
           <div class="modal-footer">
@@ -57,7 +57,7 @@ $v->layout("_theme");
         </div>
 
         <a href="#modal_new_task" data-toggle="modal" data-target="#modal_new_task">
-          + Criar entrega
+          Criar entrega +
         </a>
 
       </div>
@@ -82,12 +82,17 @@ $v->layout("_theme");
                 <td><?= date_format($date, 'd/m/Y') ?></td>
               </tr>
 
-          <?php
+            <?php
 
             endforeach;
-          endif;
+          else :
+            ?>
 
-          ?>
+            <tr>
+              <td colspan="2" align="center">Não existem entregas cadastradas</td>
+            </tr>
+
+          <?php endif; ?>
 
         </tbody>
       </table>

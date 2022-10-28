@@ -1530,6 +1530,7 @@ ul.dropdown-menu li {
 
 .modal-footer button {
   width: 70%;
+  margin-bottom: 1rem;
 }
 
 /* LOGIN E CADASTRO */
@@ -1624,9 +1625,17 @@ ul.dropdown-menu li {
   outline: 3px solid #8a4e95;
 }
 
+.titulo-entregas {
+  margin-top: 3rem;
+}
 
 @media (min-width: 576px) {
   .modal-dialog {
     max-width: 600px;
   }
+}
+
+.table span,
+.table b{
+  color: #8a4e95;
 }

@@ -16,9 +16,16 @@ $v->layout("_theme");
   <section class="section">
     <!-- Content -->
     <div class="container">
-      <div class="table-text">
-        <h2>Grupo: <?= $grupo->name ?></h2>
-        <p><?= $grupo->description ?></p>
+      <div class="grupo-texto">
+        <div class="grupo-detalhe">
+          <h2><?= $grupo->name ?></h2>
+          <p><?= $grupo->description ?></p>
+        </div>
+
+        <a href="#new-note" data-toggle="modal" data-target="#new-note">
+          Enviar nota +
+        </a>
+
       </div>
       <table class="table">
         <thead>
@@ -35,44 +42,52 @@ $v->layout("_theme");
 
           <?php
           if (!empty($entrega)) :
+            $v->insert("utils/modal_enviar_nota.php", ['entrega' => $entrega]);
+
             foreach ($entrega as $valor) :
-              $prazo_final = date_create($valor->date);
+              $data_entrega = date_create($valor->date_delivery);
+              $data_final = date_create($valor->date);
           ?>
               <tr>
                 <td><?= $valor->name; ?></td>
                 <td>
                   <?php if (!empty($valor->filename)) : ?>
-                    <a href="../assets/docs/<?= $valor->filename ?>" download>Baixar Entrega</a>
+                    <a href="<?= docs("$valor->filename") ?>" download>Baixar Entrega</a>
                   <?php else : ?>
                     Não enviado
                   <?php endif; ?>
                 </td>
                 <td>
+                  <?= !empty($valor->date_delivery) ? date_format($data_entrega, 'd/m/Y') : "Não enviado"; ?>
+                </td>
+                <td><?= date_format($data_final, 'd/m/Y'); ?></td>
+                <td>
+                <b>
                   <?php
                   if (!empty($valor->date_delivery)) :
-                    $prazo_entrega = date_create($valores->date_delivery);
-
-                    echo date_format($prazo_entrega, 'd/m/Y');
-                  ?>
-                  <?php else : ?>
+                    if (!empty($valor->note)) : ?>
+                      <?= $valor->note; ?>
+                    <?php else : ?>
+                      Não lançada
+                    <?php
+                    endif;
+                  else :
+                    ?>
                     Não enviado
                   <?php endif; ?>
-                </td>
-                <td><?= date_format($prazo_final, 'd/m/Y'); ?></td>
-                <td>
-                  <?php
-                  if (!empty($valor->note)) : ?>
-                    <a href="#!">Adicionar nota</a>
-                  <?php else : ?>
-                    Não enviado
-                  <?php endif; ?>
-
+                </b>
                 </td>
               </tr>
-          <?php
+            <?php
             endforeach;
-          endif;
-          ?>
+          else :
+            ?>
+
+            <tr>
+              <td colspan="5" align="center">Não existem entregas cadastradas</td>
+            </tr>
+
+          <?php endif; ?>
 
         </tbody>
       </table>

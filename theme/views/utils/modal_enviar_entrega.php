@@ -9,22 +9,24 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form action="<?= $router->route("app.upload") ?>" id="form_file" method="post" enctype="multipart/form-data" >
-      <input type="hidden" type="text" id="validador" class="arquivo_validador" value="SIM" name="arquivo_validador">
-      <input type="hidden" type="text" value="vazio" name="filename" id="filename">
+      <form action="<?= $router->route("app.upload") ?>" id="form_file" method="post" enctype="multipart/form-data">
+        <input type="hidden" type="text" id="validador" class="arquivo_validador" value="SIM" name="arquivo_validador">
+        <input type="hidden" type="text" value="vazio" name="filename" id="filename">
         <div class="modal-body">
           <div class="modal-input">
             <p>Qual entrega deseja enviar?</p>
             <select class="form-select entregas" required id="Entrega" name="entrega" aria-label="select example">
-              <option disabled readonly>Selecione uma opção</option>
+              <option disabled>Selecione uma opção</option>
 
               <?php
               if (!empty($tasks)) :
-                foreach ($tasks as $task) :
-              ?>
-                  <option value="<?= $task->id; ?>"><?= $task->name; ?></option>
-                <?php
 
+                foreach ($tasks as $key => $task) :
+                  if (empty($task->date_delivery) && empty($task->filename)) :
+              ?>
+                    <option value="<?= $task->id; ?>"><?= $task->name; ?></option>
+                <?php
+                  endif;
                 endforeach;
               else :
                 ?>

@@ -43,7 +43,7 @@ $v->layout("_theme");
           <div>
             <h2>Grupos</h2>
             <p>
-              Verifique em detalhes cada grupo de TCC.
+              Verifique as entregas de cada grupo.
             </p>
           </div>
           <a href="#new-group" data-toggle="modal" data-target="#new-group">Adicionar Grupo +</a>
@@ -77,11 +77,14 @@ $v->layout("_theme");
       <div class="container">
 
         <div class="grupo-texto">
-          <div>
-            <h2>Suas entregas</h2>
+          <div class="grupo-detalhe">
+            <!-- <h2>Suas entregas</h2>
             <p>
               Realize entregas, confira prazos e acompanhe suas notas.
-            </p>
+            </p> -->
+
+            <h2><?= $grupo->name; ?></h2>
+            <p><?= $grupo->description ?></p>
           </div>
 
           <a href="#modal_new_task" data-toggle="modal" data-target="#modal_new_task">
@@ -90,9 +93,10 @@ $v->layout("_theme");
 
         </div>
 
-
-        <h3>Entregas Pendentes</h3>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius, fugiat.</p>
+        <div>
+          <h3>Entregas Pendentes</h3>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius, fugiat.</p>
+        </div>
 
         <table class="table table-hover">
           <thead>
@@ -105,32 +109,51 @@ $v->layout("_theme");
           <tbody>
             <?php
 
+            $entrou = "N";
             if (!empty($tasks)) :
               foreach ($tasks as $key => $task) :
-                $prazo_final = date_create($task->date);
+                if (empty($task->date_delivery) && empty($task->filename)) :
+                  $entrou = "S";
+                  $prazo_final = date_create($task->date);
             ?>
-                <tr>
-                  <td><?= $task->name; ?></td>
-                  <td><?= date_format($prazo_final, 'd/m/Y'); ?></td>
-                  <td>Não Enviado</td>
-                </tr>
+                  <tr>
+                    <td><?= $task->name; ?></td>
+                    <td><?= date_format($prazo_final, 'd/m/Y'); ?></td>
+                    <td>Não Enviado</td>
+                  </tr>
               <?php
-
+                endif;
               endforeach;
             else :
+
+              $entrou = "S";
               ?>
               <tr>
-                <td colspan="3" align="center">Seu grupo já realizou todas as entregas</td>
+                <td colspan="3" align="center">Não existem entregas cadastradas</td>
               </tr>
 
-            <?php endif; ?>
+            <?php
+            endif;
+
+            if ($entrou == "N") :
+            ?>
+              <tr>
+                <td colspan="5" align="center">Seu grupo já realizou todas as entregas</td>
+              </tr>
+
+            <?php
+            endif;
+
+
+            ?>
 
           </tbody>
         </table>
 
-
-        <!-- <h3>Entregas Realizadas</h3>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius, fugiat.</p>
+        <div class="titulo-entregas">
+          <h3>Entregas Realizadas</h3>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius, fugiat.</p>
+        </div>
 
         <table class="table table-hover">
           <thead>
@@ -143,15 +166,62 @@ $v->layout("_theme");
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>FrontEnd</td>
-              <td>Pendende</td>
-              <td>Pendende</td>
-              <td>19/10/2022</td>
-              <td>Pendende</td>
-            </tr>
+
+            <?php
+
+            $entrou = "";
+            if (!empty($tasks)) :
+              foreach ($tasks as $key => $task) :
+                if (!empty($task->date_delivery) && !empty($task->filename)) :
+                  $entrou = "TEM";
+
+                  $data_final = date_create($task->date);
+                  $data_entrega = date_create($task->date_delivery);
+            ?>
+                  <td><?= $task->name; ?></td>
+                  <td>
+                    <a href="<?= docs("$task->filename") ?>" download>Baixar entrega</a>
+                  </td>
+                  <td><?= date_format($data_entrega, 'd/m/Y'); ?></td>
+                  <td><?= date_format($data_final, 'd/m/Y'); ?></td>
+                  <td><b><?= !empty($task->note) ? $task->note : "Aguardando" ?></b></td>
+                  </tr>
+              <?php
+                else :
+                  $entrou = $entrou != "TEM" ? "NAOENVIOU" : $entrou;
+                endif;
+              endforeach;
+            else :
+              ?>
+              <tr>
+                <td colspan="5" align="center">Não existem entregas cadastradas</td>
+              </tr>
+
+            <?php
+            endif;
+
+            if ($entrou == "N") :
+            ?>
+              <tr>
+                <td colspan="5" align="center">Seu grupo já realizou todas as entregas</td>
+              </tr>
+
+            <?php
+            endif;
+
+            if ($entrou == "NAOENVIOU") :
+            ?>
+              <tr>
+                <td colspan="5" align="center">Seu grupo ainda não realizou nenhuma entrega</td>
+              </tr>
+
+            <?php
+            endif;
+
+
+            ?>
           </tbody>
-        </table> -->
+        </table>
 
 
       </div>
