@@ -2,12 +2,11 @@
 
 <div id="login">
   <div class="overlay"></div>
-  <!-- LOADER TEMPLATE -->
+
   <div id="page-loader">
     <div class="loader-icon fa fa-spin colored-border"></div>
   </div>
 
-  <!-- NAVBAR================================================= -->
   <nav class="navbar navbar-expand-lg navbar-dark trans-navigation fixed-top navbar-togglable">
     <div class="container">
       <div class="collapse navbar-collapse has-dropdown" id="navbarCollapse">

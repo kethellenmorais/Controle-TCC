@@ -9,8 +9,10 @@
   position: relative;
   background: url(../images/banner/envio.png) no-repeat;
   background-size: cover;
+}
 
-
+#cadastro .centralizar {
+  height: 100vh;
 }
 
 .header-transparent {

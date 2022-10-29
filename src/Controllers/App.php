@@ -125,12 +125,12 @@ class App
       ]);
     } elseif (!empty($_SESSION['user']) && $_SESSION['user_type'] == 1) {
       $composicao = (new Composicao())->find("usuario_id = :user", "user=$_SESSION[user]")->fetch();
-      $grupo = (new Grupos())->find("id = :id", "id=$composicao->grupo_id")->fetch();
-      $tasks = (new Entregas())->find("grupo = :group", "group=$composicao->grupo_id")->fetch(true);
+      $grupo = (new Grupos())->findById($composicao->grupo_id);
+      $entregas = (new Entregas())->find("grupo = :group", "group=$composicao->grupo_id")->fetch(true);
 
       echo $this->view->render("inicio", [
         "title" => "Inicio",
-        "tasks" => $tasks,
+        "entregas" => $entregas,
         "grupo" => $grupo
       ]);
     } else {
@@ -248,7 +248,7 @@ class App
     $new_password = htmlspecialchars($data["new_password"], ENT_QUOTES);
     $confirm_password = htmlspecialchars($data["confirm_password"], ENT_QUOTES);
 
-    $user = (new Usuarios())->find("id = :id", "id=$_SESSION[user]")->fetch();
+    $user = (new Usuarios())->findById($_SESSION['user']);
 
     if (password_verify($current_password, $user->password)) {
 
@@ -336,7 +336,7 @@ class App
       $entregas = (new Entregas())->find("grupo = :grupo_id", "grupo_id=$data[id]")->order("date ASC")->fetch(true);
 
       echo $this->view->render("detalhe", [
-        "title" => "Detalhes",
+        "title" => "$grupo->name",
         "grupo" => $grupo,
         "entrega" => $entregas,
       ]);
@@ -353,7 +353,7 @@ class App
     $entrega_id = $data['entrega'];
     $entrega_nota = $data['nota'];
 
-    $entrega = (new Entregas())->find("id = :id", "id=$entrega_id")->fetch();
+    $entrega = (new Entregas())->findById($entrega_id);
 
     if (!empty($entrega)) {
 
@@ -382,12 +382,11 @@ class App
   public function upload(array $data): void
   {
 
-
     $task_id = $data['entrega'];
     $filename = $data['filename'];
 
     $composicao = (new Composicao())->find("usuario_id = :id", "id=$_SESSION[user]")->fetch();
-    $usuario = (new Usuarios())->find("id = :id", "id=$_SESSION[user]")->fetch();
+    $usuario = (new Usuarios())->findById($_SESSION['user']);
     $entregas = (new Entregas())->find("grupo = :grupo_id AND id = :id", "grupo_id=$composicao->grupo_id&id=$task_id")->fetch();
 
     if (!empty($entregas)) {

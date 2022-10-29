@@ -10,9 +10,9 @@
   <link rel="stylesheet" href="<?= plugins("bootstrap/bootstrap.min.css"); ?>" />
   <link rel="stylesheet" href="<?= plugins("animate-css/animate.css"); ?>" />
   <link rel="stylesheet" href="<?= plugins("fontawesome/css/all.css"); ?>" />
-  <link rel="stylesheet" href="<?= plugins("fonts/Pe-icon-7-stroke.css"); ?>" />
-  <link rel="stylesheet" href="<?= plugins("themify/css/themify-icons.css"); ?>" />
-  <link rel="stylesheet" href="<?= plugins("slick-carousel/slick/slick-theme.css"); ?>" />
+  <!-- <link rel="stylesheet" href="<?= plugins("fonts/Pe-icon-7-stroke.css"); ?>" /> -->
+  <!-- <link rel="stylesheet" href="<?= plugins("themify/css/themify-icons.css"); ?>" /> -->
+  <!-- <link rel="stylesheet" href="<?= plugins("slick-carousel/slick/slick-theme.css"); ?>" /> -->
 
   <link rel="stylesheet" href="<?= css("style.css"); ?>" />
   <link rel="stylesheet" href="<?= css("card.css"); ?>" />

@@ -1,6 +1,4 @@
 <?php
-// session_start();
-
 $v->layout("_theme");
 ?>
 
@@ -29,11 +27,11 @@ $v->layout("_theme");
           <div class="modal-body">
             <div class="modal-input">
               <p>Título da entrega</p>
-              <input type="text" name="entrega" placeholder="Digite o título da entrega.." maxlength="30" id="entrega" />
+              <input type="text" name="entrega" required placeholder="Digite o título da entrega.." maxlength="30" id="entrega" />
             </div>
             <div class="modal-input">
               <p>Prazo final</p>
-              <input type="date" min="<?= date("Y-m-d") ?>" name="prazo_entrega" id="prazo_entrega" />
+              <input type="date" min="<?= date("Y-m-d") ?>" required name="prazo_entrega" id="prazo_entrega" />
             </div>
           </div>
           <div class="modal-footer">
@@ -52,16 +50,17 @@ $v->layout("_theme");
         <div>
           <h2>Entregas</h2>
           <p>
-            Defina etapas e prazos de entrega para os grupos
+            Defina entregas e prazos para os grupos
           </p>
         </div>
 
-        <a href="#modal_new_task" data-toggle="modal" data-target="#modal_new_task">
-          Criar entrega +
+        <a href="#modal_new_task" data-toggle="modal" class="abrir-modal" data-target="#modal_new_task">
+          <i class="fas fa-plus"></i>
+          <b>Criar entrega</b>
         </a>
 
       </div>
-      <table class="table">
+      <table class="table table-hover">
         <thead>
           <tr>
             <th width="50%">Título da entrega</th>

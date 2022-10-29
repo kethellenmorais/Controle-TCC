@@ -14,7 +14,6 @@ $v->layout("_theme");
   </section>
 
   <section class="section">
-    <!-- Content -->
     <div class="container">
       <div class="grupo-texto">
         <div class="grupo-detalhe">
@@ -22,8 +21,9 @@ $v->layout("_theme");
           <p><?= $grupo->description ?></p>
         </div>
 
-        <a href="#new-note" data-toggle="modal" data-target="#new-note">
-          Enviar nota +
+        <a href="#new-note" data-toggle="modal" class="abrir-modal" data-target="#new-note">
+        <i class="fas fa-plus"></i>
+          <b>Enviar nota</b>
         </a>
 
       </div>
@@ -31,6 +31,7 @@ $v->layout("_theme");
         <thead>
           <tr>
             <th>Entrega</th>
+            <th>Aluno</th>
             <th>Arquivo</th>
             <th>Data de Envio</th>
             <th>Prazo final</th>
@@ -49,10 +50,17 @@ $v->layout("_theme");
               $data_final = date_create($valor->date);
           ?>
               <tr>
-                <td><?= $valor->name; ?></td>
-                <td>
+                <td class="limit-width-table"><?= $valor->name; ?></td>
+                <td class="limit-width-table">
+                  <?php if (!empty($valor->user)) : ?>
+                    <?= $valor->user; ?>
+                  <?php else : ?>
+                    Não enviado
+                  <?php endif; ?>
+                </td>
+                <td >
                   <?php if (!empty($valor->filename)) : ?>
-                    <a href="<?= docs("$valor->filename") ?>" download>Baixar Entrega</a>
+                    <a href="<?= docs("$valor->filename") ?>" download><b>Baixar<i class="fas fa-download"></i></b></a>
                   <?php else : ?>
                     Não enviado
                   <?php endif; ?>

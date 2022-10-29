@@ -1,4 +1,4 @@
-<div class="modal fade" id="modal_new_task" tabindex="-1" role="dialog" aria-labelledby="modal_new_task" aria-hidden="true">
+<div class="modal fade" id="modal_new_valor" tabindex="-1" role="dialog" aria-labelledby="modal_new_valor" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -21,12 +21,12 @@
               <option disabled>Selecione uma opção</option>
 
               <?php
-              if (!empty($tasks)) :
+              if (!empty($entregas)) :
 
-                foreach ($tasks as $key => $task) :
-                  if (empty($task->date_delivery) && empty($task->filename)) :
+                foreach ($entregas as $key => $valor) :
+                  if (empty($valor->date_delivery) && empty($valor->filename)) :
               ?>
-                    <option value="<?= $task->id; ?>"><?= $task->name; ?></option>
+                    <option value="<?= $valor->id; ?>"><?= $valor->name; ?></option>
                 <?php
                   endif;
                 endforeach;
