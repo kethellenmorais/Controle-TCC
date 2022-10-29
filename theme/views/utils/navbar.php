@@ -112,8 +112,13 @@ $v->start("js");
             $("#form_file").submit();
           }
         },
-        error: function() {
-
+        error: function(e) {
+          Swal.fire({
+              icon: "error",
+              title: 'Oops...',
+              html: e.responseText,
+              allowOutsideClick: false
+            })
         }
       });
 
@@ -150,8 +155,13 @@ $v->start("js");
 
           }
         },
-        error: function() {
-
+        error: function(e) {
+          Swal.fire({
+              icon: "error",
+              title: 'Oops...',
+              html: e.responseText,
+              allowOutsideClick: false
+            })
         }
       });
     }
