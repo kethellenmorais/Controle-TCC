@@ -10,8 +10,10 @@
         </button>
       </div>
       <form action="<?= $router->route("app.upload") ?>" id="form_file" method="post" enctype="multipart/form-data">
-        <input type="hidden" type="text" id="validador" class="arquivo_validador" value="SIM" name="arquivo_validador">
+        <input type="hidden" type="text" id="validador" class="arquivo_validador" value="SIM">
+        <input type="hidden" type="text" value="<?= $grupo->name; ?>" name="nome_grupo" id="nome_grupo">
         <input type="hidden" type="text" value="vazio" name="filename" id="filename">
+        <input type="hidden" type="text" value="<?= url("/theme/views/utils/arquivo.php") ?>" id="enviaArquivo">
         <div class="modal-body">
           <div class="modal-input">
             <p>Qual entrega deseja enviar?</p>
@@ -37,7 +39,7 @@
           </div>
           <div class="modal-input">
             <p>Selecione o documento de envio</p>
-            <input type="file" required name="arquivo" id="myFile"></a>
+            <input type="file" accept="application/pdf, application/vnd.openxmlformats-officedocument.wordprocessingml.document, apapplication/msword, text/plain, application/zip" required name="arquivo" id="myFile"></a>
             </td>
           </div>
         </div>

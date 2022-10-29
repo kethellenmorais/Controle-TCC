@@ -382,7 +382,9 @@ class App
   public function upload(array $data): void
   {
 
+
     $task_id = $data['entrega'];
+    $filename = $data['filename'];
 
     $composicao = (new Composicao())->find("usuario_id = :id", "id=$_SESSION[user]")->fetch();
     $usuario = (new Usuarios())->find("id = :id", "id=$_SESSION[user]")->fetch();
@@ -390,7 +392,7 @@ class App
 
     if (!empty($entregas)) {
       $entregas->user = "$usuario->name";
-      $entregas->filename = "example.txt";
+      $entregas->filename = $filename;
       $entregas->date_delivery = date("Y-m-d");
       $entregas->save();
 

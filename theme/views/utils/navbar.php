@@ -53,7 +53,7 @@
       </div>
       <form action="<?= $router->route("app.nova_senha") ?>" method="post" autocomplete="off">
         <div class="modal-body">
-          <input type="hidden" type="text" class="arquivo_validador" value="NAO" name="arquivo_validador">
+          <input type="hidden" type="text" class="arquivo_validador" value="NAO">
           <div class="modal-input">
             <p>Senha Atual</p>
             <input type="password" required name="current_password" id="current_password" placeholder="Digite a sua senha atual..." />
@@ -75,7 +75,6 @@
   </div>
 </div>
 
-
 <?php
 $v->start("js");
 ?>
@@ -84,12 +83,39 @@ $v->start("js");
     e.preventDefault();
     var form = $(this);
 
-    var arquivo = form[0][0] ? form[0][0] : null
-
-    if (arquivo.value == "SIM") {
+    if (form[0][0].value == "SIM") {
       var formData = new FormData();
       formData.append('file', document.getElementById('myFile').files[0]);
-      saveImage(formData)
+      formData.append('nome_grupo', document.getElementById('nome_grupo').value);
+
+      $.ajax({
+        url: document.getElementById('enviaArquivo').value,
+        data: formData,
+        type: "POST",
+        dataType: "json",
+        processData: false,
+        contentType: false,
+        success: function(callback) {
+          if (callback.error) {
+
+            Swal.fire({
+              icon: callback.type,
+              title: 'Oops...',
+              html: callback.error,
+              allowOutsideClick: false
+            })
+
+          } else {
+            document.getElementById('filename').value = callback.filename
+            document.getElementById('validador').value = "NAO"
+
+            $("#form_file").submit();
+          }
+        },
+        error: function() {
+
+        }
+      });
 
     } else {
 
@@ -122,38 +148,6 @@ $v->start("js");
               }
             })
 
-          }
-        },
-        error: function() {
-
-
-        }
-      });
-    }
-
-    function saveImage(formData) {
-      $.ajax({
-        url: "arquivo.php",
-        data: formData,
-        type: "POST",
-        // dataType: "json",
-        processData: false,
-        contentType: false,
-        success: function(callback) {
-          if (callback.error) {
-
-            Swal.fire({
-              icon: callback.type,
-              title: 'Oops...',
-              text: callback.error,
-              allowOutsideClick: false
-            })
-
-          } else {
-            document.getElementById('filename').value = callback.filename
-            document.getElementById('validador').value = "NAO"
-
-            $("#form_file").submit();
           }
         },
         error: function() {
