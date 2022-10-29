@@ -7,12 +7,12 @@ if (isset($_FILES['file']) && !empty($_FILES['file']['name'])) {
   $name = $nome_grupo . "-" . uniqid() . "-" . $_FILES['file']['name'];
   $name = str_replace(" ", "", $name);
 
-  $valida = end(explode(".", $_FILES['file']['name']));
+  $valida = explode(".", $name);
 
   $ext = array("pdf", "docx", "doc", "txt", "zip");
 
-  if (!in_array($valida, $ext)) {
-    $callback["error"] = "Formato não suportado ($valida).<br>Formatos suportados: <b>pdf, docx, doc, txt, zip</b>.";
+  if (!in_array(end($valida), $ext)) {
+    $callback["error"] = "Formato não suportado (<b>" . end($valida) . "</b>).<br>Formatos suportados: <b>pdf, docx, doc, txt, zip</b>.";
     $callback["type"] = "error";
 
     echo json_encode($callback);
