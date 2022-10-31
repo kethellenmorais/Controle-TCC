@@ -7,6 +7,8 @@
 
 #### Universidade Cidade de São Paulo
 
+[![Controle-TCC](https://user-images.githubusercontent.com/50972494/199127934-fc02b666-9423-404f-a255-c78f5f8ab0ef.png)](https://youtu.be/-3rU0xihQF0 "Little red riding hood - Click to Watch!")
+
 </div>
 
 ## 📋️ Introdução
@@ -19,6 +21,8 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 
 - [x] HTML
 - [x] CSS
+- [x] JavaScript
+- [x] PHP
 - [x] MySQL
 
 ### 👨‍🏫️ Orientador
