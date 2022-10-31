@@ -1,13 +1,10 @@
 <?php
-session_start();
-
-$v->layout("../_theme");
-
+$v->layout("_theme");
 ?>
 
 <div id="top-header">
   <?php
-  $v->insert("../utils/navbar.php");
+  $v->insert("utils/navbar.php");
   ?>
 
   <!-- HERO================================================== -->
@@ -32,21 +29,23 @@ $v->layout("../_theme");
 
   if ($_SESSION['user_type'] == 2) :
 
-    $v->insert("../utils/modal_criar_grupo.php");
+    $v->insert("utils/modal_criar_grupo.php");
 
   ?>
 
     <section class="section">
-      <!-- Content -->
       <div class="container">
         <div class="grupo-texto">
           <div>
             <h2>Grupos</h2>
             <p>
-              Verifique em detalhes cada grupo de TCC.
+              Verifique as entregas de cada grupo.
             </p>
           </div>
-          <a href="#new-group" data-toggle="modal" data-target="#new-group">Adicionar Grupo +</a>
+          <a href="#new-group" data-toggle="modal" class="abrir-modal" data-target="#new-group">
+            <i class="fas fa-plus"></i>
+            <b>Adicionar Grupo</b>
+          </a>
         </div>
         <div class="row justify-content-center lista-grupos">
 
@@ -54,7 +53,7 @@ $v->layout("../_theme");
 
           if (!empty($grupos)) {
             foreach ($grupos as $grupo) {
-              $v->insert("../utils/card.php", ['grupo' => $grupo]);
+              $v->insert("utils/card.php", ['grupo' => $grupo]);
             }
           } else {
             echo "<h3>Não tem existem grupos cadastrados na aplicação</h3>";
@@ -69,46 +68,30 @@ $v->layout("../_theme");
   <?php
   elseif ($_SESSION['user_type'] == 1) :
 
-    $v->insert("../utils/modal_enviar_entrega.php");
+    $v->insert("utils/modal_enviar_entrega.php", ['entregas' => $entregas]);
   ?>
 
     <section class="section">
-      <!-- Content -->
       <div class="container">
 
         <div class="grupo-texto">
-          <div>
-            <h2>Suas entregas</h2>
-            <p>
-              Realize entregas, confira prazos e acompanhe suas notas.
-            </p>
+          <div class="grupo-detalhe">
+            <h2><?= $grupo->name; ?></h2>
+            <p><?= $grupo->description ?></p>
           </div>
 
-          <a href="#modal_new_task" data-toggle="modal" data-target="#modal_new_task">
-            + Adicionar entrega
+          <a href="#modal_new_valor" data-toggle="modal" class="abrir-modal" data-target="#modal_new_valor">
+            <i class="fas fa-plus"></i>
+            <b>Adicionar entrega</b>
           </a>
 
         </div>
-        <table class="table table-hover">
-          <thead>
-            <tr>
-              <th>Título da entrega</th>
-              <th>Arquivo</th>
-              <th>Data de Envio</th>
-              <th>Prazo final</th>
-              <th>Nota</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>FrontEnd</td>
-              <td><a href="./images/banner/banner.png" download="">Baixar</a></td>
-              <td>19/10/2022</td>
-              <td>19/10/2022</td>
-              <td>10</td>
-            </tr>
-          </tbody>
-        </table>
+
+        <div>
+          <h3>Entregas Pendentes</h3>
+          <p>Acompanhe aqui as entregas que o seu grupo ainda precisa realizar</p>
+        </div>
+
         <table class="table table-hover">
           <thead>
             <tr>
@@ -118,21 +101,129 @@ $v->layout("../_theme");
             </tr>
           </thead>
           <tbody>
+            <?php
+
+            $entrou = "N";
+            if (!empty($entregas)) :
+              foreach ($entregas as $key => $valor) :
+                if (empty($valor->date_delivery) && empty($valor->filename)) :
+                  $entrou = "S";
+                  $prazo_final = date_create($valor->date);
+            ?>
+                  <tr>
+                    <td><?= $valor->name; ?></td>
+                    <td><?= date_format($prazo_final, 'd/m/Y'); ?></td>
+                    <td>Não Enviado</td>
+                  </tr>
+              <?php
+                endif;
+              endforeach;
+            else :
+
+              $entrou = "S";
+              ?>
+              <tr>
+                <td colspan="3" align="center"><b>Não existem entregas cadastradas</b></td>
+              </tr>
+
+            <?php
+            endif;
+
+            if ($entrou == "N") :
+            ?>
+              <tr>
+                <td colspan="3" align="center"><b>Seu grupo já realizou todas as entregas</b></td>
+              </tr>
+
+            <?php
+            endif;
+
+
+            ?>
+
+          </tbody>
+        </table>
+
+        <div class="titulo-entregas">
+          <h3>Entregas Realizadas</h3>
+          <p>Acompanhe aqui as entregas que o seu grupo já realizou</p>
+        </div>
+
+        <table class="table table-hover">
+          <thead>
             <tr>
-              <td>BackEnd</td>
-              <td>21/10/2022</td>
-              <td>Pendente</td>
+              <th>Título da entrega</th>
+              <th>Integrante</th>
+              <th>Arquivo</th>
+              <th>Data de Envio</th>
+              <th>Prazo final</th>
+              <th>Nota</th>
             </tr>
+          </thead>
+          <tbody>
+
+            <?php
+
+            $entrou = "";
+            if (!empty($entregas)) :
+              foreach ($entregas as $key => $valor) :
+                if (!empty($valor->date_delivery) && !empty($valor->filename)) :
+                  $entrou = "TEM";
+
+                  $data_final = date_create($valor->date);
+                  $data_entrega = date_create($valor->date_delivery);
+            ?>
+                  <td class="limit-width-table"><?= $valor->name; ?></td>
+                  <td class="limit-width-table"><?= $valor->user; ?></td>
+                  <td>
+                    <a href="<?= docs("$valor->filename") ?>" download><b>Baixar<i class="fas fa-download"></i></b></a>
+                  </td>
+                  <td><?= date_format($data_entrega, 'd/m/Y'); ?></td>
+                  <td><?= date_format($data_final, 'd/m/Y'); ?></td>
+                  <td><b><?= !empty($valor->note) ? $valor->note : "Aguardando" ?></b></td>
+                  </tr>
+              <?php
+                else :
+                  $entrou = $entrou != "TEM" ? "NAOENVIOU" : $entrou;
+                endif;
+              endforeach;
+            else :
+              ?>
+              <tr>
+                <td colspan="6" align="center"><b>Não existem entregas cadastradas</b></td>
+              </tr>
+
+            <?php
+            endif;
+
+            if ($entrou == "N") :
+            ?>
+              <tr>
+                <td colspan="6" align="center"><b>Seu grupo já realizou todas as entregas</b></td>
+              </tr>
+
+            <?php
+            endif;
+
+            if ($entrou == "NAOENVIOU") :
+            ?>
+              <tr>
+                <td colspan="6" align="center"><b>Seu grupo ainda não realizou nenhuma entrega</b></td>
+              </tr>
+
+            <?php
+            endif;
+
+
+            ?>
           </tbody>
         </table>
       </div>
     </section>
 
-
   <?php
   endif;
-
-  $v->insert("../utils/to_top.php");
+  $v->insert("utils/to_top.php");
   ?>
 
 </div>

@@ -9,7 +9,11 @@
   margin: -4rem 0 3rem 0;
 }
 
+.grupo-detalhe {
+  width: 80%;
+}
+
 .card-group {
-  border: 2px solid #333;
+  border: 2px solid #8a4e95;
   border-radius: 5px;
 }

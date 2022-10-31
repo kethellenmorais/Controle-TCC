@@ -79,3 +79,15 @@ function plugins(string $path): string
   return ROOT;
 }
 
+/**
+ * @param string $path
+ * @return string
+ */
+function docs(string $path): string
+{
+  if ($path) {
+    return ROOT . "/theme/assets/docs/{$path}";
+  }
+  return ROOT;
+}
+

@@ -1,13 +1,14 @@
-<?php $v->layout("../_theme"); ?>
+<?php $v->layout("_theme"); ?>
 
-<div id="login">
+<div id="cadastro">
   <div class="overlay"></div>
 
   <div id="page-loader">
     <div class="loader-icon fa fa-spin colored-border"></div>
   </div>
 
-  <nav class="navbar navbar-expand-lg navbar-dark trans-navigation fixed-top navbar-togglable">
+
+  <nav class="navbar navbar-expand-lg navbar-dark trans-navigation fixed-top navbar-togglable header-transparent">
     <div class="container">
       <div class="collapse navbar-collapse has-dropdown" id="navbarCollapse">
         <ul class="navbar-nav ml-auto">
@@ -62,7 +63,7 @@
   </section>
 
   <?php
-  $v->insert("../utils/to_top.php");
+  $v->insert("utils/to_top.php");
   ?>
 
 </div>

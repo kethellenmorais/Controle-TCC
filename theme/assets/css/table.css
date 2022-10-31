@@ -21,7 +21,17 @@
 
 .table th, .table td {
   vertical-align: top;
-  /* border-top: 1px solid #dee2e6; */
+}
+
+.table td.limit-width-table {
+  max-width: 200px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.fa-download{
+  margin-left: 10px;
 }
 
 th {

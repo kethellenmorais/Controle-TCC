@@ -1,8 +1,7 @@
-/* @import url("https://fonts.googleapis.com/css?family=Muli:300,400,500,700,900"); */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
 
 html {
-  font-family: sans-serif;
+  font-family: "Inter", sans-serif;
   line-height: 1.15;
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
@@ -278,7 +277,7 @@ a:focus {
 PRELOADER
 =======================*/
 #page-loader {
-  background: #fff;
+  background: #fafafa;
   height: 100%;
   width: 100%;
   position: fixed;
@@ -286,7 +285,7 @@ PRELOADER
 }
 
 .loader-icon {
-  background: none repeat scroll 0 0 #fff;
+  background: none repeat scroll 0 0 #fafafa;
   border-bottom: 3px solid rgba(19, 19, 19, 0.1) !important;
   border-left: 3px solid rgba(19, 19, 19, 0.1) !important;
   border-radius: 100px;
@@ -294,7 +293,7 @@ PRELOADER
   -webkit-border-radius: 100px;
   -o-border-radius: 100px;
   -ms-border-radius: 100px;
-  border-right: 3px solid #1453f2 !important;
+  border-right: 3px solid #8a4e95 !important;
   border-top: 3px solid rgba(19, 19, 19, 0.1) !important;
   height: 50px;
   left: 50%;
@@ -307,7 +306,7 @@ PRELOADER
 }
 
 .colored-border {
-  border-color: #fff;
+  border-color: #fafafa;
 }
 
 .fa-spin {
@@ -583,7 +582,6 @@ ul.dropdown-menu li {
 
 .banner-content p {
   color: #eee;
-  padding-right: 80px;
   margin-bottom: 30px !important;
 }
 
@@ -1447,12 +1445,39 @@ ul.dropdown-menu li {
   }
 }
 
+.abrir-modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+
+.modal-header,
+.modal-footer {
+  border: none;
+}
+
+.modal-title {
+  margin-left: 2rem;
+  margin-top: 1rem;
+}
+
+.modal-header .close {
+  padding: 0.5rem 0.8rem;
+  margin: 0 0 -1rem auto;
+}
+
 .modal-body {
   padding: 1rem 3rem;
 }
 
 .modal-input {
   margin-bottom: 1rem;
+}
+
+.modal-input p {
+  color: black;
 }
 
 .modal-input input {
@@ -1496,7 +1521,7 @@ ul.dropdown-menu li {
   outline-color: #6f337a;
 }
 
-.modal-input select{
+.modal-input select {
   width: 100%;
   height: 100px;
   /* padding: 10px 15px; */
@@ -1508,7 +1533,7 @@ ul.dropdown-menu li {
   outline-color: #6f337a;
 }
 
-.modal-input select option{
+.modal-input select option {
   padding: 10px;
 }
 
@@ -1523,9 +1548,9 @@ ul.dropdown-menu li {
 }
 
 .modal-footer button {
-  width: 60%;
+  width: 70%;
+  margin-bottom: 1rem;
 }
-
 
 /* LOGIN E CADASTRO */
 
@@ -1560,7 +1585,7 @@ ul.dropdown-menu li {
   color: black;
 }
 
-.entrar-input input{
+.entrar-input input {
   width: 100%;
   height: 50px;
 
@@ -1573,7 +1598,7 @@ ul.dropdown-menu li {
   outline-color: #6f337a;
 }
 
-.entrar-input select{
+.entrar-input select {
   width: 100%;
   height: 50px;
   padding: 10px 15px;
@@ -1585,7 +1610,7 @@ ul.dropdown-menu li {
   outline-color: #6f337a;
 }
 
-.entrar-input select option{
+.entrar-input select option {
   padding: 10px;
 }
 
@@ -1608,4 +1633,28 @@ ul.dropdown-menu li {
 
 .entrar-button button {
   width: 80%;
+}
+
+.swal2-confirm.swal2-styled {
+  background-color: #8a4e95;
+  width: 75%;
+}
+
+.btn:focus {
+  outline: 3px solid #8a4e95;
+}
+
+.titulo-entregas {
+  margin-top: 3rem;
+}
+
+@media (min-width: 576px) {
+  .modal-dialog {
+    max-width: 600px;
+  }
+}
+
+.table span,
+.table b {
+  color: #8a4e95;
 }

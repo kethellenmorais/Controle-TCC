@@ -1,13 +1,12 @@
-<?php $v->layout("../_theme"); ?>
+<?php $v->layout("_theme"); ?>
 
 <div id="login">
   <div class="overlay"></div>
-  <!-- LOADER TEMPLATE -->
+
   <div id="page-loader">
     <div class="loader-icon fa fa-spin colored-border"></div>
   </div>
 
-  <!-- NAVBAR================================================= -->
   <nav class="navbar navbar-expand-lg navbar-dark trans-navigation fixed-top navbar-togglable">
     <div class="container">
       <div class="collapse navbar-collapse has-dropdown" id="navbarCollapse">
@@ -34,7 +33,6 @@
           <p>Digite seu usuário</p>
           <input type="text" name="username" placeholder="Seu usuário..." maxlength="30" required />
         </div>
-
         <div class="entrar-input">
           <p>Digite sua senha</p>
           <input type="password" placeholder="Sua senha..." name="password" maxlength="16" required />

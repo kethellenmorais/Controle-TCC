@@ -1,12 +1,12 @@
 <?php
-session_start();
-$v->layout("../_theme");
+// session_start();
+$v->layout("_theme");
 ?>
 
 <body id="top-header">
 
   <?php
-  $v->insert("../utils/navbar.php");
+  $v->insert("utils/navbar.php");
   ?>
 
   <section class="banner-area py-5" id="banner">
@@ -14,37 +14,96 @@ $v->layout("../_theme");
   </section>
 
   <section class="section">
-    <!-- Content -->
     <div class="container">
-      <div class="table-text">
-        <h2>Grupo: <?= $grupo->name ?></h2>
-        <p><?= $grupo->description ?></p>
+      <div class="grupo-texto">
+        <div class="grupo-detalhe">
+          <h2><?= $grupo->name ?></h2>
+          <p><?= $grupo->description ?></p>
+        </div>
+
+        <a href="#new-note" data-toggle="modal" class="abrir-modal" data-target="#new-note">
+        <i class="fas fa-plus"></i>
+          <b>Enviar nota</b>
+        </a>
+
       </div>
       <table class="table">
         <thead>
           <tr>
             <th>Entrega</th>
+            <th>Aluno</th>
             <th>Arquivo</th>
             <th>Data de Envio</th>
             <th>Prazo final</th>
             <th>Nota</th>
           </tr>
         </thead>
+
         <tbody>
-          <tr>
-            <td>Front</td>
-            <td><a href="./images/banner/banner.png" download="">Baixar Entrega</a></td>
-            <td>19/10/2022</td>
-            <td>19/10/2022</td>
-            <td><a href="#!">Adicionar nota</a></td>
-          </tr>
+
+          <?php
+          if (!empty($entrega)) :
+            $v->insert("utils/modal_enviar_nota.php", ['entrega' => $entrega]);
+
+            foreach ($entrega as $valor) :
+              $data_entrega = date_create($valor->date_delivery);
+              $data_final = date_create($valor->date);
+          ?>
+              <tr>
+                <td class="limit-width-table"><?= $valor->name; ?></td>
+                <td class="limit-width-table">
+                  <?php if (!empty($valor->user)) : ?>
+                    <?= $valor->user; ?>
+                  <?php else : ?>
+                    Não enviado
+                  <?php endif; ?>
+                </td>
+                <td >
+                  <?php if (!empty($valor->filename)) : ?>
+                    <a href="<?= docs("$valor->filename") ?>" download><b>Baixar<i class="fas fa-download"></i></b></a>
+                  <?php else : ?>
+                    Não enviado
+                  <?php endif; ?>
+                </td>
+                <td>
+                  <?= !empty($valor->date_delivery) ? date_format($data_entrega, 'd/m/Y') : "Não enviado"; ?>
+                </td>
+                <td><?= date_format($data_final, 'd/m/Y'); ?></td>
+                <td>
+                <b>
+                  <?php
+                  if (!empty($valor->date_delivery)) :
+                    if (!empty($valor->note)) : ?>
+                      <?= $valor->note; ?>
+                    <?php else : ?>
+                      Não lançada
+                    <?php
+                    endif;
+                  else :
+                    ?>
+                    Não enviado
+                  <?php endif; ?>
+                </b>
+                </td>
+              </tr>
+            <?php
+            endforeach;
+          else :
+            ?>
+
+            <tr>
+              <td colspan="5" align="center">Não existem entregas cadastradas</td>
+            </tr>
+
+          <?php endif; ?>
+
         </tbody>
       </table>
     </div>
   </section>
 
   <?php
-  $v->insert("../utils/to_top.php");
+  $v->insert("utils/to_top.php");
   ?>
 
 </body>

@@ -5,9 +5,10 @@ namespace Src\Controllers;
 session_start();
 
 use League\Plates\Engine;
-use Src\Models\User;
-use Src\Models\Group;
-use Src\Models\Task;
+use Src\Models\Usuarios;
+use Src\Models\Grupos;
+use Src\Models\Entregas;
+use Src\Models\Composicao;
 
 class App
 {
@@ -20,6 +21,8 @@ class App
       dirname(__DIR__, 2) . "/theme/views",
       "php"
     );
+
+    $this->view->addFolder('utils', dirname(__DIR__, 2) . '/theme/views/utils/', true);
 
     $this->view->addData(["router" => $router]);
   }
@@ -38,9 +41,30 @@ class App
     $usuario = htmlspecialchars($data["username"], ENT_QUOTES);
     $senha = htmlspecialchars($itemData['password'], ENT_QUOTES);
 
-    $user = (new User())->find("username = :user", "user=$usuario")->fetch();
+    $user = (new Usuarios())->find("username = :user", "user=$usuario")->fetch();
+
+    if (empty($user)) {
+      $callback["error"] = "O usuário não existe na aplicação";
+      $callback["type"] = "error";
+      echo json_encode($callback);
+      return;
+    }
 
     if (password_verify($senha, $user->password)) {
+
+      if ($user->access == '1') {
+        $composicao = (new Composicao())->find("usuario_id = :user", "user=$user->id")->fetch();
+
+        if (empty($composicao->id)) {
+
+          $callback["error"] = "Você ainda não está em um grupo, entre em contato com o seu professor!!!";
+          $callback["type"] = "error";
+
+          echo json_encode($callback);
+          return;
+        }
+      }
+
       $_SESSION['user'] = $user->id;
       $_SESSION['user_type'] = $user->access;
 
@@ -63,10 +87,10 @@ class App
 
   public function cadastro_post(array $data): void
   {
-    $user = new User();
+    $user = new Usuarios();
 
     $username_enviado = htmlspecialchars($data["username"], ENT_QUOTES);
-    $user_verify = (new User())->find("username = :user", "user=$username_enviado")->fetch();
+    $user_verify = (new Usuarios())->find("username = :user", "user=$username_enviado")->fetch();
 
     if (!empty($user_verify)) {
       $callback["error"] = "Já existe alguém utilizando esse username!!!";
@@ -91,8 +115,8 @@ class App
   {
 
     if (!empty($_SESSION['user']) && $_SESSION['user_type'] == 2) {
-      $grupos = (new Group())->find("teacher_id_group = :user", "user=$_SESSION[user]")->fetch(true);
-      $alunos = (new User())->find("access = :type", "type=1")->fetch(true);
+      $grupos = (new Grupos())->find("teacher_id_group = :user", "user=$_SESSION[user]")->fetch(true);
+      $alunos = (new Usuarios())->find("access = :type", "type=1")->fetch(true);
 
       echo $this->view->render("inicio", [
         "title" => "Inicio",
@@ -100,13 +124,14 @@ class App
         "alunos" => $alunos,
       ]);
     } elseif (!empty($_SESSION['user']) && $_SESSION['user_type'] == 1) {
-      $grupos = (new Group())->find("user_id_group = :user", "user=$_SESSION[user]")->fetch(true);
-      $tasks = (new Task())->find("group_id = :group", "group=$grupos->id")->fetch(true);
+      $composicao = (new Composicao())->find("usuario_id = :user", "user=$_SESSION[user]")->fetch();
+      $grupo = (new Grupos())->findById($composicao->grupo_id);
+      $entregas = (new Entregas())->find("grupo = :group", "group=$composicao->grupo_id")->fetch(true);
 
       echo $this->view->render("inicio", [
         "title" => "Inicio",
-        "grupos" => $grupos,
-        "tasks" => $tasks,
+        "entregas" => $entregas,
+        "grupo" => $grupo
       ]);
     } else {
       echo $this->view->render("login", [
@@ -115,13 +140,115 @@ class App
     }
   }
 
+  public function criar_grupo(array $data): void
+  {
+    $name = htmlspecialchars($data["name"], ENT_QUOTES);
+    $name_verify = (new Grupos())->find("name = :group_name", "group_name=$name")->fetch(true);
+
+    $description = htmlspecialchars($data["description"], ENT_QUOTES);
+    $integrantes = $data["integrantes"];
+
+    if (!empty($name_verify)) {
+      $callback["error"] =  "Já existe um grupo com esse nome";
+      $callback["type"] = "error";
+
+      echo json_encode($callback);
+      return;
+    } else {
+
+      foreach ($integrantes as $key => $integrante_id) {
+        $user = (new Composicao())->find("usuario_id = :id", "id=$integrante_id")->fetch();
+
+        if (!empty($user->id)) {
+          $callback["error"] = "O aluno já está cadastrado em um grupo";
+          $callback["type"] = "error";
+
+          echo json_encode($callback);
+          return;
+        }
+      }
+
+      $newGroup = new Grupos();
+      $newGroup->name = $name;
+      $newGroup->description = $description;
+      $newGroup->teacher_id_group = $_SESSION['user'];
+      $newGroup->save();
+
+      $groupId = (new Grupos())->find("name = :unico", "unico=$name")->fetch();
+
+      if ($newGroup->fail()) {
+        $callback["error"] = $newGroup->fail()->getMessage();
+        $callback["type"] = "error";
+
+        echo json_encode($callback);
+        return;
+      }
+
+      foreach ($integrantes as $key => $integrante_id) {
+        $user = (new Usuarios())->find("id = :id", "id=$integrante_id")->fetch();
+        $user->group_id = $groupId->id;
+        $user->save();
+
+        $composicao = new Composicao();
+        $composicao->usuario_id = $integrante_id;
+        $composicao->grupo_id = $groupId->id;
+        $composicao->save();
+
+        if ($user->fail()) {
+          $callback["error"] = $user->fail()->getMessage();
+          $callback["type"] = "error";
+
+          echo json_encode($callback);
+          return;
+        }
+
+        if ($composicao->fail()) {
+          $callback["error"] = $composicao->fail()->getMessage();
+          $callback["type"] = "error";
+
+          echo json_encode($callback);
+          return;
+        }
+      }
+
+      $entregas = (new Entregas())->find("teacher_id_entregas = :professor AND grupo = :grupo_id", "professor=$_SESSION[user]&grupo_id=0")->order("date ASC")->fetch(true);
+
+      if (!empty($entregas)) {
+        foreach ($entregas as $valor) {
+
+          $entrega = new Entregas();
+          $entrega->name = $valor->name;
+          $entrega->date = $valor->date;
+          $entrega->grupo = $groupId->id;
+          $entrega->teacher_id_entregas = $_SESSION['user'];
+          $entrega->save();
+
+
+          if ($entrega->fail()) {
+            $callback["error"] = $user->fail()->getMessage();
+            $callback["type"] = "error";
+
+            echo json_encode($callback);
+            return;
+          }
+        }
+      }
+
+      $callback["message"] = "Grupo criado com sucesso";
+      $callback["type"] = "success";
+      $callback["reload"] = true;
+    }
+
+    echo json_encode($callback);
+  }
+
   public function nova_senha(array $data): void
   {
     $current_password = htmlspecialchars($data["current_password"], ENT_QUOTES);
     $new_password = htmlspecialchars($data["new_password"], ENT_QUOTES);
     $confirm_password = htmlspecialchars($data["confirm_password"], ENT_QUOTES);
 
-    $user = (new User())->find("id = :id", "id=$_SESSION[user]")->fetch();
+    $user = (new Usuarios())->findById($_SESSION['user']);
 
     if (password_verify($current_password, $user->password)) {
 
@@ -131,6 +258,7 @@ class App
 
         $callback["message"] = "Senha atualizada com sucesso";
         $callback["type"] = "success";
+        $callback["reload"] = true;
       } else {
         $callback["error"] = "As senhas informadas estão diferentes!!!";
         $callback["type"] = "error";
@@ -144,12 +272,55 @@ class App
     echo json_encode($callback);
   }
 
+  public function criar_entregas(array $data): void
+  {
+    $name = htmlspecialchars($data["entrega"], ENT_QUOTES);
+    $date = htmlspecialchars($data["prazo_entrega"], ENT_QUOTES);
+
+    $task = new Entregas();
+    $task->name = $name;
+    $task->date = $date;
+    $task->grupo = 0;
+    $task->teacher_id_entregas = $_SESSION['user'];
+    $task->save();
+
+    $grupos = (new Grupos())->find("teacher_id_group = :user", "user=$_SESSION[user]")->fetch(true);
+
+    if (!empty($grupos)) {
+
+      foreach ($grupos as $grupo) {
+        $task = new Entregas();
+        $task->name = $name;
+        $task->date = $date;
+        $task->grupo = $grupo->id;
+        $task->teacher_id_entregas = $_SESSION['user'];
+        $task->save();
+      }
+
+      if ($task->fail()) {
+        $callback["error"] = $task->fail()->getMessage();
+        $callback["type"] = "error";
+
+        echo json_encode($callback);
+        return;
+      }
+    }
+
+    $callback["message"] = "Entrega criada com sucesso";
+    $callback["type"] = "success";
+    $callback["reload"] = true;
+
+    echo json_encode($callback);
+  }
+
   public function calendario(): void
   {
+    if (!empty($_SESSION['user']) && $_SESSION['user_type'] == 2) {
+      $entregas = (new Entregas())->find("teacher_id_entregas = :professor AND grupo = :grupo_id", "professor=$_SESSION[user]&grupo_id=0")->order("date ASC")->fetch(true);
 
-    if (!empty($_SESSION['user']) && $_SESSION['user_type'] == 2 || $_SESSION['user_type'] == 1) {
       echo $this->view->render("calendario", [
-        "title" => "Calendário"
+        "title" => "Calendário",
+        "entrega" => $entregas,
       ]);
     } else {
       echo $this->view->render("login", [
@@ -160,21 +331,87 @@ class App
 
   public function detalhe_grupo(array $data): void
   {
+    if (!empty($_SESSION['user']) && $_SESSION['user_type'] == 2) {
+      $grupo = (new Grupos())->findById($data["id"]);
+      $entregas = (new Entregas())->find("grupo = :grupo_id", "grupo_id=$data[id]")->order("date ASC")->fetch(true);
 
-    if (!empty($_SESSION['user']) && $_SESSION['user_type'] == 2 || $_SESSION['user_type'] == 1) {
-      $grupo = (new Group())->findById($data["id"]);
-
-      if ($grupo) {
-        echo $this->view->render("detalhe", [
-          "title" => "Detalhes",
-          "grupo" => $grupo
-        ]);
-      }
+      echo $this->view->render("detalhe", [
+        "title" => "$grupo->name",
+        "grupo" => $grupo,
+        "entrega" => $entregas,
+      ]);
     } else {
       echo $this->view->render("login", [
         "title" => "Login"
       ]);
     }
+  }
+
+  public function avaliar(array $data): void
+  {
+
+    $entrega_id = $data['entrega'];
+    $entrega_nota = $data['nota'];
+
+    $entrega = (new Entregas())->findById($entrega_id);
+
+    if (!empty($entrega)) {
+
+      $entrega->note = $entrega_nota;
+      $entrega->save();
+
+      if ($entrega->fail()) {
+        $callback["error"] = $entrega->fail()->getMessage();
+        $callback["type"] = "error";
+
+        echo json_encode($callback);
+        return;
+      }
+
+      $callback["message"] = "Avaliação realizada com sucesso";
+      $callback["type"] = "success";
+      $callback["reload"] = true;
+    } else {
+      $callback["error"] = "Entrega não encontrada";
+      $callback["type"] = "error";
+    }
+
+    echo json_encode($callback);
+  }
+
+  public function upload(array $data): void
+  {
+
+    $task_id = $data['entrega'];
+    $filename = $data['filename'];
+
+    $composicao = (new Composicao())->find("usuario_id = :id", "id=$_SESSION[user]")->fetch();
+    $usuario = (new Usuarios())->findById($_SESSION['user']);
+    $entregas = (new Entregas())->find("grupo = :grupo_id AND id = :id", "grupo_id=$composicao->grupo_id&id=$task_id")->fetch();
+
+    if (!empty($entregas)) {
+      $entregas->user = "$usuario->name";
+      $entregas->filename = $filename;
+      $entregas->date_delivery = date("Y-m-d");
+      $entregas->save();
+
+      if ($entregas->fail()) {
+        $callback["error"] = $entregas->fail()->getMessage();
+        $callback["type"] = "error";
+
+        echo json_encode($callback);
+        return;
+      }
+
+      $callback["message"] = "Entrega realizada com sucesso";
+      $callback["type"] = "success";
+      $callback["reload"] = true;
+    } else {
+      $callback["error"] = "Entrega não encontrada";
+      $callback["type"] = "error";
+    }
+
+    echo json_encode($callback);
   }
 
   public function sair(): void
