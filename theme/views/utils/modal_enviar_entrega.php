@@ -39,8 +39,7 @@
           </div>
           <div class="modal-input">
             <p>Selecione o documento de envio</p>
-            <input type="file" accept="application/pdf, application/vnd.openxmlformats-officedocument.wordprocessingml.document, apapplication/msword, text/plain, application/zip" required name="arquivo" id="myFile"></a>
-            </td>
+            <input type="file" accept="application/pdf, application/vnd.openxmlformats-officedocument.wordprocessingml.document, apapplication/msword, text/plain, application/zip" required name="arquivo" id="myFile">
           </div>
         </div>
         <div class="modal-footer">
