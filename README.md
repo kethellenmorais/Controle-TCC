@@ -7,8 +7,6 @@
 
 #### Universidade Cidade de São Paulo
 
-<br>
-
 </div>
 
 ## 🎥️ Demostração
@@ -17,7 +15,7 @@
 
 ## 📋️ Introdução
 
-O projeto tem como objetivo disponibilizar recursos para feedback e subida de arquivos de trabalho de conclusão de curso, possibilitando aos alunos e professores, uma plataforma prática e organizada de envios.
+O projeto tem como objetivo disponibilizar recursos para feedback e envio de arquivos de trabalho, possibilitando aos alunos e professores, uma plataforma prática e organizada de envios.
 
 ## 🧪 Tecnologias
 
